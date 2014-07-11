@@ -114,9 +114,13 @@ class Renderer(screenWidth:Int, screenHeight:Int, zoom:Int, tileset:Tileset){
   }
 
   def drawTileRaw(t:Tile, x:Double, y:Double) {
-    val (fg, bg) = oglTile.getSprites(t.code, t.fgColor, t.bgColor)
-    drawOglSprite(bg, x.toInt, y.toInt)
-    drawOglSprite(fg, x.toInt, y.toInt)
+    if (x < 0 || y < 0 || x > screenWidth || y > screenWidth) {
+      //do nothing
+    } else {
+      val (fg, bg) = oglTile.getSprites(t.code, t.fgColor, t.bgColor)
+      drawOglSprite(bg, x.toInt, y.toInt)
+      drawOglSprite(fg, x.toInt, y.toInt)
+    }
   }
 
 
