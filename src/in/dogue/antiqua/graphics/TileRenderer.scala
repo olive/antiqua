@@ -14,7 +14,6 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
   def movet(ij:(Int,Int)) = move(ij._1, ij._2)
   def project(rect:Recti) = Recti(originX, originY, 0, 0) + rect
 
-
   def withMove(i:Int, j:Int)(f:TileRenderer => TileRenderer) = {
     move(i, j).<+<(f).move(-i, -j)
   }
