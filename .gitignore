@@ -1,0 +1,12 @@
+*.class
+*.log
+*.iws
+*.json
+*.csv
+out/
+lines.txt
+graph.py
+logs/
+DbSettings.scala
+test.png
+crash_*
