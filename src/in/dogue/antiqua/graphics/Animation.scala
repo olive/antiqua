@@ -26,6 +26,7 @@ case class Animation(frames:Vector[(Int,Tile)], ptr:Int, t:Int) {
     copy(t=newT, ptr=newPtr)
   }
 
+  /** Draw the animation with the given foreground color rather than the Tile's color. */
   def drawWithFg(c:Color, i:Int, j:Int)(tr:TileRenderer):TileRenderer = {
     tr <| (i, j, getTile.setFg(c))
   }
