@@ -79,7 +79,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     draws.foldLeft(this){ _ <+~ _ }
   }
 
-  def <+++<[T](draws:Array2d[T], f:T => Tile):TileRenderer = {
+  def <+++<[T](draws:Array2d[T], f:T => Tile, g:Int => Int):TileRenderer = {
     <+++(draws.map { case (i, j, t) => f(t)})
   }
 
