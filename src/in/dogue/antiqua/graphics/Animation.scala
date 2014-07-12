@@ -45,4 +45,8 @@ case class Animation(frames:Vector[(Int,Tile)], ptr:Int, t:Int) {
   def draw(i:Int, j:Int)(tr:TileRenderer):TileRenderer = {
     tr <+ (i, j, getTile)
   }
+
+  def drawFg(i:Int, j:Int)(tr:TileRenderer):TileRenderer = {
+    tr <| (i, j, getTile)
+  }
 }

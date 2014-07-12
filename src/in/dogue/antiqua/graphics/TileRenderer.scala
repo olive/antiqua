@@ -96,15 +96,8 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     draws.foldLeft(this) { _ <+< _ }
   }
 
-  def <#(i:Int, j:Int, a:Animation): (TileRenderer) => TileRenderer = {
-    a.draw(i, j)
-  }
+  def <|<(f:TileRenderer => TileRenderer) = {
 
-  def <#~(t:(Int,Int,Animation)) = {
-    val i = t._1
-    val j = t._2
-    val f = t._3
-    <#(i, j, f)
   }
 
   def <##(draws:Seq[(Int,Int, Animation)]) = {
