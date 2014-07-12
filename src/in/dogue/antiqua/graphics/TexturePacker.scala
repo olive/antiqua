@@ -28,9 +28,6 @@ object TexturePacker {
       batch.end()
     })
 
-    Screenshot.saveFrameBuffer(buf, "test.png")
-
-
     batch.dispose()
     buf.texture
   }
