@@ -32,7 +32,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     <|(i, j, f)
   }
 
-  def <||(s:Seq[(Int,Int,Tile)]) = {
+  def <||(s:TileGroup) = {
     s.foldLeft(this){ _ <|~ _}
   }
 
@@ -50,7 +50,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     <+|(i, j, f)
   }
 
-  def <++|(s:Seq[(Int,Int,Tile)]) = {
+  def <++|(s:TileGroup) = {
     s.foldLeft(this){ _ <+|~ _}
   }
 
@@ -89,7 +89,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     t.map {this <+~ _}.getOrElse(this)
   }
 
-  def <++(draws:Seq[(Int,Int,Tile)]): TileRenderer = {
+  def <++(draws:TileGroup): TileRenderer = {
     draws.foldLeft(this) { _ <+~ _ }
   }
 

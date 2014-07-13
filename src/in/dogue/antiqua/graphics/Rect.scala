@@ -19,7 +19,7 @@ object Rect {
   }
 }
 
-case class Rect(cols:Int, rows:Int, tiles:Seq[(Int, Int, Tile)]) {
+case class Rect(cols:Int, rows:Int, tiles:TileGroup) {
   def update = this
   def draw(i:Int, j:Int)(tr:TileRenderer):TileRenderer = {
     tr <++ (tiles map { case (ii, jj, t) => (i+ii, j+jj, t)})

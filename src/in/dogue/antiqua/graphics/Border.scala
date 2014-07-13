@@ -22,7 +22,7 @@ case class Border(
   val ll = bcp.downLeft
   val lr = bcp.downRight
   val tf = TileFactory(bgColor, fgColor)
-  val edges:Seq[(Int,Int,Tile)] = {
+  val edges:TileGroup = {
     val vert = tf(v)
     val horiz = tf(h)
     val upLeft = Seq((0,0, tf(ul)))
