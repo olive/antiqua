@@ -4,14 +4,7 @@ import com.deweyvm.gleany.data.Point2d
 import in.dogue.antiqua.Antiqua
 import Antiqua._
 import scala.collection.mutable.ArrayBuffer
-
-case class Line(p:Point2d, q:Point2d) {
-  def this(x1:Double, y1:Double, x2:Double, y2:Double) = this(Point2d(x1, y1), Point2d(x2, y2))
-
-  lazy val length = (q - p).magnitude
-
-  def translate(pt:Point2d) = Line(p + pt, q + pt)
-
+object Line {
   def bresenham(sx:Int, sy:Int, endX:Int, endY:Int):Seq[Point2d] = {
     var startX = sx
     var startY = sy
@@ -63,6 +56,15 @@ case class Line(p:Point2d, q:Point2d) {
     }
     output
   }
+}
+case class Line(p:Point2d, q:Point2d) {
+  def this(x1:Double, y1:Double, x2:Double, y2:Double) = this(Point2d(x1, y1), Point2d(x2, y2))
+
+  lazy val length = (q - p).magnitude
+
+  def translate(pt:Point2d) = Line(p + pt, q + pt)
+
+
 
   /**
    * returns point if lines are touching only at endpoints or intersecting
