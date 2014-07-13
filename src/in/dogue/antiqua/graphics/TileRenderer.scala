@@ -38,7 +38,27 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
   def <||(s:Seq[(Int,Int,Tile)]) = {
     s.foldLeft(this){ _ <|~ _}
   }
+  
+  /**
+   * Draws only the foreground if there is already a tile in that place, else draws both foreground and background
+   */
+  def <+|(i:Int, j:Int, fg:Tile) = {
+    val t = draws.get((i + originX, j + originY))
+    t.map(tile => {
+      this <+ (i, j, tile.setFg(fg.fgColor).setCode(fg.code))
+    }).getOrElse(this <+ (i, j, fg))
+  }
 
+  def <+|~(t:(Int,Int,Tile)):TileRenderer = {
+    val i = t._1
+    val j = t._2
+    val f = t._3
+    <+|(i, j, f)
+  }
+
+  def <++|(s:Seq[(Int,Int,Tile)]) = {
+    s.foldLeft(this){ _ <+|~ _}
+  }
   def `$>`(i:Int, j:Int, f:Tile => Tile):TileRenderer = {
     val t = draws.get((i + originX, j + originY))
     t.map(tile => {
