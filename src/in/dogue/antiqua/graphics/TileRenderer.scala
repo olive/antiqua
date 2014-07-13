@@ -28,17 +28,14 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     }).getOrElse(this)
   }
 
-  def <|~(t:(Int,Int,Tile)):TileRenderer = {
-    val i = t._1
-    val j = t._2
-    val f = t._3
+  def <|~ :(Int,Int,Tile) => TileRenderer = { case (i, j, f) =>
     <|(i, j, f)
   }
 
   def <||(s:Seq[(Int,Int,Tile)]) = {
     s.foldLeft(this){ _ <|~ _}
   }
-  
+
   /**
    * Draws only the foreground if there is already a tile in that place, else draws both foreground and background
    */
@@ -49,16 +46,18 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     }).getOrElse(this <+ (i, j, fg))
   }
 
-  def <+|~(t:(Int,Int,Tile)):TileRenderer = {
-    val i = t._1
-    val j = t._2
-    val f = t._3
+  def <+|~ :(Int,Int,Tile) => TileRenderer = { case (i, j, f) =>
     <+|(i, j, f)
   }
 
   def <++|(s:Seq[(Int,Int,Tile)]) = {
     s.foldLeft(this){ _ <+|~ _}
   }
+
+  /**
+   * Applies the given function to the tile at (i, j). If no tile is
+   * present, nothing happens.
+   */
   def `$>`(i:Int, j:Int, f:Tile => Tile):TileRenderer = {
     val t = draws.get((i + originX, j + originY))
     t.map(tile => {
@@ -66,10 +65,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     }).getOrElse(this)
   }
 
-  def `~$>`(t:(Int,Int,Tile=>Tile)):TileRenderer = {
-    val i = t._1
-    val j = t._2
-    val f = t._3
+  def `~$>`:(Int,Int,Tile=>Tile) => TileRenderer = { case (i, j, f) =>
     `$>`(i, j, f)
   }
 
@@ -77,24 +73,26 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     s.foldLeft(this){ _ `~$>` _}
   }
 
+  /**
+   * Draw the given tile at (i, j)
+   */
   def <+(i:Int, j:Int, tile:Tile) = {
     val updated = draws.updated((i + originX, j + originY), tile)
     copy(draws = updated)
   }
 
-  def <+~(t:(Int,Int,Tile)): TileRenderer = {
-    val i = t._1
-    val j = t._2
-    val f = t._3
+  def <+~ : (Int,Int,Tile) => TileRenderer = { case (i, j, f) =>
     <+(i, j, f)
   }
 
   def <+?(t:Option[(Int,Int,Tile)]): TileRenderer = {
     t.map {this <+~ _}.getOrElse(this)
   }
+
   def <++(draws:Seq[(Int,Int,Tile)]): TileRenderer = {
     draws.foldLeft(this) { _ <+~ _ }
   }
+
   def <+++(draws:Array2d[Tile]):TileRenderer = {
     draws.foldLeft(this){ _ <+~ _ }
   }
@@ -103,7 +101,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     <+++(draws.map { case (i, j, t) => f(t)})
   }
 
-
+  /** Apply a draw function to this renderer */
   def <+<(f:TileRenderer => TileRenderer): TileRenderer = {
     f(this)
   }
@@ -116,11 +114,8 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     draws.foldLeft(this) { _ <+< _ }
   }
 
-  def <|<(f:TileRenderer => TileRenderer) = {
-
-  }
-
-  def <##(draws:Seq[(Int,Int, Animation)]) = {
+  /** Draw an animation group */
+  def <##(draws:Seq[(Int,Int,Animation)]) = {
     draws.foldLeft(this) { case (tr, (i, j, a)) =>
       tr <+< a.draw(i, j)
     }
@@ -133,6 +128,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     TileRenderer(draws ++ other.draws, originX, originY)
   }
 
+  /** Clear the given renderer preserving its origin */
   def ^^^() = {
     TileRenderer(Map(), originX, originY)
   }
