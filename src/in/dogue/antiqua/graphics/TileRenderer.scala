@@ -28,7 +28,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     }).getOrElse(this)
   }
 
-  def <|~ :(Int,Int,Tile) => TileRenderer = { case (i, j, f) =>
+  def <|~ :((Int,Int,Tile)) => TileRenderer = { case (i, j, f) =>
     <|(i, j, f)
   }
 
@@ -46,7 +46,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     }).getOrElse(this <+ (i, j, fg))
   }
 
-  def <+|~ :(Int,Int,Tile) => TileRenderer = { case (i, j, f) =>
+  def <+|~ :((Int,Int,Tile)) => TileRenderer = { case (i, j, f) =>
     <+|(i, j, f)
   }
 
@@ -65,7 +65,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     }).getOrElse(this)
   }
 
-  def `~$>`:(Int,Int,Tile=>Tile) => TileRenderer = { case (i, j, f) =>
+  def `~$>`:((Int,Int,Tile=>Tile)) => TileRenderer = { case (i, j, f) =>
     `$>`(i, j, f)
   }
 
@@ -81,7 +81,7 @@ case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
     copy(draws = updated)
   }
 
-  def <+~ : (Int,Int,Tile) => TileRenderer = { case (i, j, f) =>
+  def <+~ : ((Int,Int,Tile)) => TileRenderer = { case (i, j, f) =>
     <+(i, j, f)
   }
 
