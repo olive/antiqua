@@ -3,6 +3,7 @@ package in.dogue.antiqua.geometry
 import com.deweyvm.gleany.data.Point2d
 import in.dogue.antiqua.Antiqua
 import Antiqua._
+import scala.collection.mutable.ArrayBuffer
 
 case class Line(p:Point2d, q:Point2d) {
   def this(x1:Double, y1:Double, x2:Double, y2:Double) = this(Point2d(x1, y1), Point2d(x2, y2))
@@ -10,6 +11,58 @@ case class Line(p:Point2d, q:Point2d) {
   lazy val length = (q - p).magnitude
 
   def translate(pt:Point2d) = Line(p + pt, q + pt)
+
+  def bresenham(sx:Int, sy:Int, endX:Int, endY:Int):Seq[Point2d] = {
+    var startX = sx
+    var startY = sy
+    val w = endX - startX
+    val h = endY - startY
+    var dx1 = 0
+    var dy1 = 0
+    var dx2 = 0
+    var dy2 = 0
+    if (w < 0) {
+      dx1 = -1
+      dx2 = -1
+    } else if (w > 0) {
+      dx1 = 1
+      dx2 = 1
+    }
+    if (h < 0) {
+      dy1 = -1
+    } else if (h > 0) {
+      dy1 = 1
+    }
+    import scala.math.abs
+    var longest = abs(w)
+    var shortest = abs(h)
+    if (longest <= shortest) {
+      longest = abs(h)
+      shortest = abs(w)
+      if (h < 0) {
+        dy2 = -1
+      } else if (h > 0) {
+        dy2 = 1
+      }
+      dx2 = 0
+    }
+    val output = ArrayBuffer[Point2d]()
+    var numerator = longest >> 1
+    for (i <- 0 to longest) {
+      val point = Point2d(startX, startY)
+      output += point
+      numerator += shortest
+      if (numerator > longest) {
+        numerator -= longest
+        startX += dx1
+        startY += dy1
+      } else {
+        startX += dx2
+        startY += dy2
+      }
+    }
+    output
+  }
 
   /**
    * returns point if lines are touching only at endpoints or intersecting
