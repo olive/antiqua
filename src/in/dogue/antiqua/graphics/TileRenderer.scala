@@ -2,8 +2,8 @@ package in.dogue.antiqua.graphics
 
 import com.deweyvm.gleany.data.Recti
 import in.dogue.antiqua.data.Array2d
-import in.dogue.antiqua.Implicits
-import Implicits._
+import in.dogue.antiqua.Antiqua
+import Antiqua._
 
 object TileRenderer {
   def create = TileRenderer(Map(), 0, 0)

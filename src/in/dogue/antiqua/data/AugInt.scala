@@ -1,7 +1,7 @@
 package in.dogue.antiqua.data
 
-import in.dogue.antiqua.Implicits
-import Implicits._
+import in.dogue.antiqua.Antiqua
+import Antiqua._
 
 class AugInt(a:Int) {
   def %%(b:Int) = (a % b + b) % b

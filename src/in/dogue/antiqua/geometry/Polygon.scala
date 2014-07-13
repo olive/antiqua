@@ -1,8 +1,8 @@
 package in.dogue.antiqua.geometry
 
 import com.deweyvm.gleany.data.Point2d
-import in.dogue.antiqua.Implicits
-import Implicits._
+import in.dogue.antiqua.Antiqua
+import Antiqua._
 
 object Polygon {
   def fromLines(lines:Vector[Line]) = lines match {

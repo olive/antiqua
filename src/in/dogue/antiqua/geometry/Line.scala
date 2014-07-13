@@ -1,8 +1,8 @@
 package in.dogue.antiqua.geometry
 
 import com.deweyvm.gleany.data.Point2d
-import in.dogue.antiqua.Implicits
-import Implicits._
+import in.dogue.antiqua.Antiqua
+import Antiqua._
 
 case class Line(p:Point2d, q:Point2d) {
   def this(x1:Double, y1:Double, x2:Double, y2:Double) = this(Point2d(x1, y1), Point2d(x2, y2))

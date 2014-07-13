@@ -4,8 +4,8 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 import com.deweyvm.gleany.graphics.Color
 import in.dogue.antiqua.graphics.{BorderCodePage, Tile}
-import in.dogue.antiqua.Implicits
-import Implicits._
+import in.dogue.antiqua.Antiqua
+import Antiqua._
 
 //code page 437
 //uppercase special characters are suffixed with _u due to the possible error:

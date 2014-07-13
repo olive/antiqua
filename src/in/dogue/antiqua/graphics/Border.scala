@@ -1,7 +1,7 @@
 package in.dogue.antiqua.graphics
 
 import com.deweyvm.gleany.graphics.Color
-import in.dogue.antiqua.Implicits._
+import in.dogue.antiqua.Antiqua._
 
 object Border {
   def standard(bcp:BorderCodePage, bg:Color, fg:Color) =

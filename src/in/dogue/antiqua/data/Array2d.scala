@@ -1,6 +1,6 @@
 package in.dogue.antiqua.data
 
-import in.dogue.antiqua.Implicits._
+import in.dogue.antiqua.Antiqua._
 
 object Array2d {
   def tabulate[T](cols:Int, rows:Int)(f:(Int,Int) => T):Array2d[T] = {

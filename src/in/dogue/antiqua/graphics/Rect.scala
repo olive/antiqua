@@ -1,6 +1,6 @@
 package in.dogue.antiqua.graphics
 
-import in.dogue.antiqua.Implicits._
+import in.dogue.antiqua.Antiqua._
 import scala.util.Random
 
 object Rect {
