@@ -37,7 +37,7 @@ case class Border(
   }
 
   def draw(p:Int, q:Int)(tr:TileRenderer):TileRenderer = {
-    tr <++ edges.map {case (i, j, t) => (i + p, j + q, t)}
+    tr <++ (edges |+| (p, q))
   }
 
   def filterDraw(i:Int, j:Int, f:(Int,Int) => Boolean)(tr:TileRenderer):TileRenderer = {
