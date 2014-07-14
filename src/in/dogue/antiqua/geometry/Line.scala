@@ -5,7 +5,7 @@ import in.dogue.antiqua.Antiqua
 import Antiqua._
 import scala.collection.mutable.ArrayBuffer
 object Line {
-  def bresenham(sx:Int, sy:Int, endX:Int, endY:Int):Seq[Point2d] = {
+  def bresenham(sx:Int, sy:Int, endX:Int, endY:Int):Seq[(Int,Int)] = {
     var startX = sx
     var startY = sy
     val w = endX - startX
@@ -39,10 +39,10 @@ object Line {
       }
       dx2 = 0
     }
-    val output = ArrayBuffer[Point2d]()
+    val output = ArrayBuffer[(Int,Int)]()
     var numerator = longest >> 1
     for (i <- 0 to longest) {
-      val point = Point2d(startX, startY)
+      val point = (startX, startY)
       output += point
       numerator += shortest
       if (numerator > longest) {
