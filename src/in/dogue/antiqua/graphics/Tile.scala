@@ -1,13 +1,25 @@
 package in.dogue.antiqua.graphics
 
 import com.deweyvm.gleany.graphics.Color
-import in.dogue.antiqua.data.Code
+import in.dogue.antiqua.data.{Array2d, Code}
 import in.dogue.antiqua.Antiqua.TileGroup
+import com.deweyvm.gleany.AssetLoader
+
 object Tile {
   def makeGroup(cs:Vector[(Int,Int,Code,Color,Color)]):TileGroup = {
     cs.map { case (i, j, c, bg, fg) =>
       (i, j, c.mkTile(bg, fg))
     }
+  }
+
+  def groupFromFile(name:String, layer:String, intToCode:Int => Code, codeToTile:Code => Tile):TileGroup = {
+    val tiles = AssetLoader.loadTmx(name).getTileLayer(layer)
+    val rows = tiles.length
+    val cols = tiles(0).length
+    Array2d.tabulate(cols, rows) { case (i, j) =>
+      codeToTile(intToCode(tiles(j)(i)))
+    }.flatten
+
   }
 }
 

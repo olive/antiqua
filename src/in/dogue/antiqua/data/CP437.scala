@@ -278,6 +278,14 @@ object CP437 {
     }
   }
 
+  def intToCode(i:Int):CP437 = {
+    if (i < 1 || i > 253) {
+      CP437.` `
+    } else {
+      All(i-1)
+    }
+  }
+
   def unicodeToCode(s:Char):CP437 = {
     All.find(_.unicode == s) getOrElse CP437.?
   }
