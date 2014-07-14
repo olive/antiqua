@@ -4,10 +4,10 @@ import in.dogue.antiqua.graphics._
 import in.dogue.antiqua.graphics.Text
 import in.dogue.antiqua.data.Code
 
-object Line {
-  def create(v:Text, sound:() => Unit, isBlank:Code=>Boolean) = Line(v, sound, isBlank, 0, 0)
+object TextLine {
+  def create(v:Text, sound:() => Unit, isBlank:Code=>Boolean) = TextLine(v, sound, isBlank, 0, 0)
 }
-case class Line(v:Text, sound: () => Unit, isBlank:Code=>Boolean, ptr:Int, t:Int) {
+case class TextLine(v:Text, sound: () => Unit, isBlank:Code=>Boolean, ptr:Int, t:Int) {
   val speed = 2
   def isFinished = ptr >= v.length
   def update = {
@@ -27,7 +27,7 @@ case class Line(v:Text, sound: () => Unit, isBlank:Code=>Boolean, ptr:Int, t:Int
 }
 
 
-case class TextBox(lines:Vector[Line], ptr:Int) {
+case class TextBox(lines:Vector[TextLine], ptr:Int) {
 
   def atEnd = ptr >= lines.length
   private def updateLast() = {
