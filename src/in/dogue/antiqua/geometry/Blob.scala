@@ -3,7 +3,8 @@ package in.dogue.antiqua.geometry
 import in.dogue.antiqua.data.Array2d
 import com.deweyvm.gleany.data.{Recti, Point2d}
 import scala.util.Random
-
+import in.dogue.antiqua.Antiqua
+import Antiqua._
 /**
  * A blob is a connected (maybe convex) polygon on a 2d grid.
  */
@@ -48,22 +49,10 @@ object Blob {
       val down = get(i, j + 1)
       b && (left || right || up || down)
     }
-    Blob(result, poly, getSpan(result.flatten))
+    Blob(result, poly, result.flatten.getSpan)
   }
 
-  private def getSpan[T](s:Seq[(Int,Int,T)]) = {
-    var mini = Int.MaxValue
-    var maxi = 0
-    var minj = Int.MaxValue
-    var maxj = 0
-    for ((i, j, t) <- s) {
-      mini = Math.min(i, mini)
-      maxi = Math.max(i, maxi)
-      minj = Math.min(j, minj)
-      maxj = Math.max(j, maxj)
-    }
-    Recti(mini,minj, maxi - mini + 1, maxj - minj + 1)
-  }
+
 
   private def makeDegenerate(cols:Int, rows:Int, threshold:Int):Blob[Boolean] = {
     var count = 0
@@ -78,7 +67,7 @@ object Blob {
       count += 1
       res
     }
-    Blob(mask, poly, getSpan(mask.flatten))
+    Blob(mask, poly, mask.flatten.getSpan)
   }
 }
 
