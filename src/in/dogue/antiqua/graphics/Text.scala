@@ -7,6 +7,8 @@ case class Text(tiles:Vector[Tile], f:TextFactory)  {
     Text(tiles ++ other.tiles, f)
   }
 
+  def toTileGroup = tiles.zipWithIndex.map { case (t, i) => (i, 0, t)}
+
   def mapF(func:TextFactory=>TextFactory) = copy(f=func(f))
 
   def draw(i:Int, j:Int)(r:TileRenderer):TileRenderer = {
