@@ -21,6 +21,7 @@ object Dijkstra {
     result.some
   }
 
+  /** warning untested */
   def pfind(start:Node, end:Node, getNeighbors:(Node) => Seq[Node], getAll: => Seq[Node]):Option[Seq[Node]] = {
     val allNodes = getAll
     val dist:mutable.Map[Node, Int] = mutable.Map().withDefaultValue(Int.MaxValue)
