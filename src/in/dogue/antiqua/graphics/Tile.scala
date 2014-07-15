@@ -25,6 +25,8 @@ object Tile {
 
 case class Tile(code:Code, bgColor:Color, fgColor:Color) {
   def setBg(c:Color) = copy(bgColor = c)
+  def mapBg(f:Color => Color) = copy(bgColor = f(bgColor))
   def setFg(c:Color) = copy(fgColor = c)
+  def mapFg(f:Color => Color) = copy(fgColor = f(fgColor))
   def setCode(c:Code) = copy(code=c)
 }
