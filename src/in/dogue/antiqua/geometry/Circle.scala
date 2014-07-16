@@ -2,7 +2,9 @@ package in.dogue.antiqua.geometry
 
 import scala.collection.mutable.ArrayBuffer
 
-import com.deweyvm.gleany.data.Point2d
+import in.dogue.antiqua.Antiqua
+import Antiqua._
+
 
 object Circle {
   def bresenham(x0: Int, y0: Int, r: Int): Seq[(Int,Int)] = {
@@ -31,3 +33,19 @@ object Circle {
     output
   }
 }
+
+  case class Circle(center:(Int,Int), radius:Int) {
+    @inline def x = center.x
+    @inline def y = center.y
+    @inline def r = radius
+    def contains(ij:(Int,Int)) = {
+      val x = ij.x - center.x
+      val y = ij.y - center.y
+      x*x + y*y <= radius*radius
+
+    }
+
+    def angleToEdge(theta:Double):(Int,Int) = {
+      center
+    }
+  }
