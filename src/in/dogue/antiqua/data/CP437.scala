@@ -286,8 +286,8 @@ object CP437 {
     }
   }
 
-  def unicodeToCode(s:Char):CP437 = {
-    All.find(_.unicode == s) getOrElse CP437.?
+  def unicodeToCode(s:Char):Code = {
+    (All.find(_.unicode == s) getOrElse CP437.?).toCode
   }
 
   val doubleBorder = new BorderCodePage(

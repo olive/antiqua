@@ -46,6 +46,8 @@ object Circle {
     }
 
     def angleToEdge(theta:Double):(Int,Int) = {
-      center
+      val x = math.round(center.x + math.cos(theta) * radius).toInt
+      val y = math.round(center.y + math.sin(theta) * radius).toInt
+      (x, y)
     }
   }
