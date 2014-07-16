@@ -114,7 +114,7 @@ class Renderer(screenWidth:Int, screenHeight:Int, zoom:Int, tileset:Tileset){
   }
 
   def drawTileRaw(t:Tile, x:Double, y:Double) {
-    if (x < 0 || y < 0 || x > screenWidth || y > screenWidth) {
+    if (x < 0 || y < 0 || x > screenWidth || y > screenHeight) {
       //do nothing
     } else {
       val (fg, bg) = oglTile.getSprites(t.code, t.fgColor, t.bgColor)
