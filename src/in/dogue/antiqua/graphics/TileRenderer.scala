@@ -28,6 +28,10 @@ case class TileRenderer(draws:Map[Cell, Tile], originX:Int, originY:Int) {
     }).getOrElse(this)
   }
 
+  def <|?(opt:Option[(Int, Int, Tile)]) = {
+    opt.foldLeft(this){_ <|~ _}
+  }
+
   def <|~ :((Int,Int,Tile)) => TileRenderer = { case (i, j, f) =>
     <|(i, j, f)
   }

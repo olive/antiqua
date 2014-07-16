@@ -16,12 +16,17 @@ case class TextFactory(bgColor:Color, fgColor:Color, unicodeToCode:Char => Code)
     s.map{_.mkTile(bgColor, fgColor)}.toVector
   }
 
-  def multiline(s:String) = {
+  def textLines(s:String) = {
+    val lines = s.split('\n')
+    lines.map(create)
+  }
+
+  def multiline(s:String):TileGroup = {
     val lines = s.split('\n')
     fromLines(lines)
   }
 
-  def fromLines(s:Seq[String]) = {
+  def fromLines(s:Seq[String]):TileGroup = {
     val res = (s map create).zipWithIndex.map { case (line, k) =>
       line.toTileGroup |+| (0, k)
     }.toSeq

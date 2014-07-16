@@ -27,7 +27,11 @@ case class TextLine(v:Text, sound: () => Unit, isBlank:Code=>Boolean, ptr:Int, t
 }
 
 
-case class TextBox(lines:Vector[TextLine], ptr:Int) {
+object TextBox {
+  def create(lines:Vector[TextLine]) = TextBox(lines, 0)
+}
+
+case class TextBox private (lines:Vector[TextLine], ptr:Int) {
 
   def atEnd = ptr >= lines.length
   private def updateLast() = {
