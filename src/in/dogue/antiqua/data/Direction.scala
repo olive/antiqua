@@ -17,7 +17,7 @@ object Direction {
     override val dx = 1
     override val isHorizontal = true
   }
-
+  val All = Vector(Up, Down, Left, Right)
 }
 
 sealed trait Direction {
