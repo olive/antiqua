@@ -9,7 +9,7 @@ object TileRenderer {
   def create = TileRenderer(Map(), 0, 0)
 }
 
-case class TileRenderer(draws:Map[(Int,Int), Tile], originX:Int, originY:Int) {
+case class TileRenderer(draws:Map[Cell, Tile], originX:Int, originY:Int) {
   def move(i:Int, j:Int) = copy(originX = originX + i, originY = originY + j)
   def movet(ij:(Int,Int)) = move(ij._1, ij._2)
   def project(rect:Recti) = Recti(originX, originY, 0, 0) + rect
