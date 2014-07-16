@@ -2,7 +2,8 @@ package in.dogue.antiqua.graphics
 
 import com.deweyvm.gleany.graphics.Color
 import in.dogue.antiqua.data.Code
-
+import in.dogue.antiqua.Antiqua
+import Antiqua._
 
 object TextFactory {
   def bw(unicodeToCode:Char => Code) = TextFactory(Color.Black, Color.White, unicodeToCode)
@@ -13,6 +14,18 @@ case class TextFactory(bgColor:Color, fgColor:Color, unicodeToCode:Char => Code)
 
   private def makeTiles(s:Vector[Code], bgColor:Color, fgColor:Color) = {
     s.map{_.mkTile(bgColor, fgColor)}.toVector
+  }
+
+  def multiline(s:String) = {
+    val lines = s.split('\n')
+    fromLines(lines)
+  }
+
+  def fromLines(s:Seq[String]) = {
+    val res = (s map create).zipWithIndex.map { case (line, k) =>
+      line.toTileGroup |+| (0, k)
+    }.toSeq
+    res.flatten
   }
 
   def create(s:String) = {
