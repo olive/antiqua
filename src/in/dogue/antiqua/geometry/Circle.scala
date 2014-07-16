@@ -44,10 +44,22 @@ object Circle {
       x*x + y*y <= radius*radius
 
     }
+    def inRange(t:Double, min:Double, max:Double) = {
+      t >= min && t <= max
+    }
 
     def angleToEdge(theta:Double):(Int,Int) = {
-      val x = math.round(center.x + math.cos(theta) * radius).toInt
-      val y = math.round(center.y + math.sin(theta) * radius).toInt
+      val (roundX, roundY) = if (inRange(theta, 0, Math.PI/2)) {
+        (math.floor _, math.ceil _)
+      } else if (inRange(theta, Math.PI/2, Math.PI)) {
+        (math.ceil _, math.ceil _)
+      } else if (inRange(theta, Math.PI, 3*Math.PI/2)) {
+        (math.ceil _, math.floor _)
+      } else {
+        (math.floor _, math.floor _)
+      }
+      val x = roundX(center.x + math.cos(theta) * radius).toInt
+      val y = roundY(center.y + math.sin(theta) * radius).toInt
       (x, y)
     }
   }
