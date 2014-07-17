@@ -8,7 +8,7 @@ import Antiqua._
 object TileRenderer {
   def create = TileRenderer(Map(), Seq(), 0, 0)
 }
-/** Applies a map to all on-screen tiles */
+/** Applies a function to all on-screen tiles */
 case class Filter(f:Cell => (Tile => Tile))
 
 case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], originX:Int, originY:Int) {
