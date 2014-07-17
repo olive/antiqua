@@ -140,12 +140,17 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
   }
 
   def getDraws:Map[Cell,Tile] = {
-    draws.map{ case (cell, t) =>
-      val tt = filters.foldLeft(t) { case (tile, f) =>
-        f.f(cell)(t)
-      }
-      cell -> tt
-    }.toMap
+    if (filters.length == 0) {
+      draws
+    } else {
+      draws.map{ case (cell, t) =>
+        val tt = filters.foldLeft(t) { case (tile, f) =>
+          f.f(cell)(t)
+        }
+        cell -> tt
+      }.toMap
+
+    }
   }
 
   override def toString:String = {
