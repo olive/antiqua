@@ -6,13 +6,19 @@ import in.dogue.antiqua.Antiqua
 import Antiqua._
 
 object TileRenderer {
-  def create = TileRenderer(Map(), 0, 0)
+  def create = TileRenderer(Map(), Seq(), 0, 0)
 }
+/** Applies a map to all on-screen tiles */
+case class Filter(f:Cell => (Tile => Tile))
 
-case class TileRenderer(draws:Map[Cell, Tile], originX:Int, originY:Int) {
+case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], originX:Int, originY:Int) {
   def move(i:Int, j:Int) = copy(originX = originX + i, originY = originY + j)
   def movet(ij:(Int,Int)) = move(ij._1, ij._2)
   def project(rect:Recti) = Recti(originX, originY, 0, 0) + rect
+  def withFilter(f:Filter)(g:TileRenderer => TileRenderer) = {
+    val tr = copy(filters = filters :+ f)
+    this <*< g(tr)
+  }
 
   def withMove(i:Int, j:Int)(f:TileRenderer => TileRenderer) = {
     move(i, j).<+<(f).move(-i, -j)
@@ -122,15 +128,24 @@ case class TileRenderer(draws:Map[Cell, Tile], originX:Int, originY:Int) {
   }
 
   /**
-   * Copies all draws from other to this, ignoring other's origin
+   * Copies all draws from other to this, ignoring other's origin and filters
    */
   def <*<(other:TileRenderer) = {
-    TileRenderer(draws ++ other.draws, originX, originY)
+    TileRenderer(draws ++ other.getDraws, Seq(), originX, originY)
   }
 
   /** Clear the given renderer preserving its origin */
   def ^^^() = {
-    TileRenderer(Map(), originX, originY)
+    TileRenderer(Map(), Seq(), originX, originY)
+  }
+
+  def getDraws:Map[Cell,Tile] = {
+    draws.map{ case (cell, t) =>
+      val tt = filters.foldLeft(t) { case (tile, f) =>
+        f.f(cell)(t)
+      }
+      cell -> tt
+    }.toMap
   }
 
   override def toString:String = {

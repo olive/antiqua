@@ -129,7 +129,7 @@ class Renderer(screenWidth:Int, screenHeight:Int, zoom:Int, tileset:Tileset){
     Gdx.gl.glClear(GL10.GL_DEPTH_BUFFER_BIT | GL10.GL_COLOR_BUFFER_BIT)
     batch.begin()
     batch.setProjectionMatrix(camera.getProjection)
-    r.draws.foreach {case((i, j), t) =>
+    r.getDraws.foreach {case((i, j), t) =>
       drawTileRaw(t, i*width, j*height)
     }
     spriteDraws foreach {_()}
