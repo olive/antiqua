@@ -13,6 +13,7 @@ object Antiqua {
   implicit def indexedSeq2AugProp[A](s:IndexedSeq[(Int, A)]) = new AugIndexedProb(s)
   implicit def num2Aug[A](a:A)(implicit n: Numeric[A]) = new AugNum(a)
   implicit def seq2AugPosSeq[A](seq:Seq[(Int,Int,A)]) = new AugPosSeq(seq)
+  implicit def seq2AugCellSeq[A](seq:Seq[(Cell,A)]) = new AugCellSeq(seq)
   implicit def intTup2Aug[A](tup:(Int,Int)) = new AugIntPair(tup)
   implicit def int2Aug(i:Int) = new AugInt(i)
   implicit def cp437_2Code(cp:CP437) = new Code(cp.index)
