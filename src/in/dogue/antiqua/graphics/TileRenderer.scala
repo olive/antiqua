@@ -9,14 +9,15 @@ object TileRenderer {
   def create = TileRenderer(Map(), Seq(), 0, 0)
 }
 /** Applies a function to all on-screen tiles */
-case class Filter(f:Cell => (Tile => Tile))
+case class Filter(f:Cell => (Tile => Tile), origin:(Int,Int))
 
 case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], originX:Int, originY:Int) {
   def move(i:Int, j:Int) = copy(originX = originX + i, originY = originY + j)
   def movet(ij:(Int,Int)) = move(ij._1, ij._2)
   def project(rect:Recti) = Recti(originX, originY, 0, 0) + rect
-  def withFilter(f:Filter)(g:TileRenderer => TileRenderer) = {
-    val tr = copy(filters = filters :+ f)
+  def withFilter(f:Cell => (Tile => Tile))(g:TileRenderer => TileRenderer) = {
+    val filter = Filter(f, (originX, originY))
+    val tr = copy(filters = filters :+ filter)
     this <*< g(tr)
   }
 
@@ -86,9 +87,17 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
   /**
    * Draw the given tile at (i, j)
    */
-  def <+(i:Int, j:Int, tile:Tile) = {
-    val updated = draws.updated((i + originX, j + originY), tile)
-    copy(draws = updated)
+  def <+(p:Int, q:Int, tile:Tile) = {
+    val i = p + originX
+    val j = q + originY
+    val cols = 32
+    val rows = 32 + 16
+    if (i < 0 || i > cols - 1 || j < 0 || j > rows - 1) {
+      this
+    } else {
+      val updated = draws.updated((i, j), tile)
+      copy(draws = updated)
+    }
   }
 
   def <+~ : ((Int,Int,Tile)) => TileRenderer = { case (i, j, f) =>
@@ -145,7 +154,7 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
     } else {
       draws.map{ case (cell, t) =>
         val tt = filters.foldLeft(t) { case (tile, f) =>
-          f.f(cell)(t)
+          f.f(cell |-| f.origin)(tile)
         }
         cell -> tt
       }.toMap
