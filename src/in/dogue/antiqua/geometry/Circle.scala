@@ -6,6 +6,7 @@ import in.dogue.antiqua.Antiqua
 import Antiqua._
 
 
+
 object Circle {
   def bresenham(x0: Int, y0: Int, r: Int): Seq[(Int,Int)] = {
     var x = r
@@ -31,6 +32,21 @@ object Circle {
     }
 
     output
+  }
+
+  def fill(x0:Int, y0:Int, r:Int, f:Cell=>Double): Seq[(Cell, Double)] = {
+    val result = collection.mutable.Map[Cell, Double]()
+    for(x <- -r to r;
+        y <- -r to r) {
+      if (x*x + y*y <= r*r + r*0.8) {
+        val pt = (x0 + x, y0 + y)
+        val d = f(pt)
+        result += ((pt, d))
+        ()
+      }
+    }
+    result.toVector
+
   }
 }
 
