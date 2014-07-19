@@ -270,6 +270,8 @@ object CP437 {
   val `²`        = CP437(253, '²', '\u00B2')
   val ■          = CP437(254, '■', '\u25A0')
 
+  def notBlank(c:Tile):Boolean = c.code != ` `.toCode
+
   def codeToUnicode(code:Char):Char = {
     if (code < 1 || code > 253) {
       '?'

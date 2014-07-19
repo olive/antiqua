@@ -1,5 +1,8 @@
 package in.dogue.antiqua.graphics
 
+import in.dogue.antiqua.Antiqua
+import Antiqua._
+
 case class Text(tiles:Vector[Tile], f:TextFactory)  {
   val length = tiles.length
   def append(s:String) = {
@@ -8,7 +11,13 @@ case class Text(tiles:Vector[Tile], f:TextFactory)  {
   }
 
   def toTileGroup = tiles.zipWithIndex.map { case (t, i) => (i, 0, t)}
-
+  def filterToTileGroup(f:Tile=>Boolean) = tiles.zipWithIndex.map { case (t, i) =>
+    if (f(t)) {
+      (i, 0, t).some
+    } else {
+      None
+    }
+  }.flatten
   def mapF(func:TextFactory=>TextFactory) = copy(f=func(f))
 
   def draw(i:Int, j:Int)(r:TileRenderer):TileRenderer = {
