@@ -15,6 +15,7 @@ class AugIntPair(p:(Int,Int)) {
   def -|(j:Int) = (p._1, p._2 - j)
 
   @inline def mag = (x*x + y*y).sqrt
+  @inline def mag2 = x*x + y*y
 
   def -->(d:Direction) = (p._1 + d.dx, p._2 + d.dy)
 }

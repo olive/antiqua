@@ -11,7 +11,7 @@ class PerlinNoise {
 
   def generate(width:Int, height:Int, xStart:Int, yStart:Int, seed:Int) = {
     Array2d.tabulate(width, height) { case (i, j) =>
-      noise((i + xStart)/3.3f, (j + yStart)/3.3f, seed/3.3f)
+      noise((i + xStart)/3.3f, (j + yStart)/3.3f, (seed + 0.0001f)/3.3f)
     }
   }
 
