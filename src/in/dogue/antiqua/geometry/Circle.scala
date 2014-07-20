@@ -4,7 +4,7 @@ import scala.collection.mutable.ArrayBuffer
 
 import in.dogue.antiqua.Antiqua
 import Antiqua._
-
+import com.deweyvm.gleany.data.Recti
 
 
 object Circle {
@@ -50,32 +50,41 @@ object Circle {
   }
 }
 
-  case class Circle(center:(Int,Int), radius:Int) {
-    @inline def x = center.x
-    @inline def y = center.y
-    @inline def r = radius
-    def contains(ij:(Int,Int)) = {
-      val x = ij.x - center.x
-      val y = ij.y - center.y
-      x*x + y*y <= radius*radius
+case class Circle(center:(Int,Int), radius:Int) {
+  @inline def x = center.x
+  @inline def y = center.y
+  @inline def r = radius
+  def contains(ij:(Int,Int)) = {
+    val x = ij.x - center.x
+    val y = ij.y - center.y
+    x*x + y*y <= radius*radius
 
-    }
-    def inRange(t:Double, min:Double, max:Double) = {
-      t >= min && t <= max
-    }
-
-    def angleToEdge(theta:Double):(Int,Int) = {
-      val (roundX, roundY) = if (inRange(theta, 0, Math.PI/2)) {
-        (math.floor _, math.ceil _)
-      } else if (inRange(theta, Math.PI/2, Math.PI)) {
-        (math.ceil _, math.ceil _)
-      } else if (inRange(theta, Math.PI, 3*Math.PI/2)) {
-        (math.ceil _, math.floor _)
-      } else {
-        (math.floor _, math.floor _)
-      }
-      val x = roundX(center.x + math.cos(theta) * radius).toInt
-      val y = roundY(center.y + math.sin(theta) * radius).toInt
-      (x, y)
-    }
   }
+
+  //untested
+  def intersects(rect:Recti) = {
+    val c = (x.clamp(rect.x, rect.right),
+             y.clamp(rect.y, rect.bottom))
+    val d = center |-| c
+    d.mag2 < radius * radius
+
+  }
+  def inRange(t:Double, min:Double, max:Double) = {
+    t >= min && t <= max
+  }
+
+  def angleToEdge(theta:Double):(Int,Int) = {
+    val (roundX, roundY) = if (inRange(theta, 0, Math.PI/2)) {
+      (math.floor _, math.ceil _)
+    } else if (inRange(theta, Math.PI/2, Math.PI)) {
+      (math.ceil _, math.ceil _)
+    } else if (inRange(theta, Math.PI, 3*Math.PI/2)) {
+      (math.ceil _, math.floor _)
+    } else {
+      (math.floor _, math.floor _)
+    }
+    val x = roundX(center.x + math.cos(theta) * radius).toInt
+    val y = roundY(center.y + math.sin(theta) * radius).toInt
+    (x, y)
+  }
+}
