@@ -1,10 +1,11 @@
 package in.dogue.antiqua
 
 import in.dogue.antiqua.data._
-import in.dogue.antiqua.graphics.Tile
+import in.dogue.antiqua.graphics.{Animation, Tile}
 
 object Antiqua {
   type TileGroup = Seq[(Int,Int,Tile)]
+  type AnimationGroup = Seq[(Cell,Animation)]
   type Cell = (Int,Int)
   implicit def any2Aug[A](a:A) = new AugAny(a)
   implicit def opt2Aug[A](o:Option[A]) = new AugOption(o)
