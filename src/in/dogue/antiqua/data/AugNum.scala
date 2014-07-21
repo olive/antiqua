@@ -13,7 +13,12 @@ class AugNum[T](rep:T)(implicit n: Numeric[T]) {
 
   def max(other:T) = n.max(rep, other)
   def min(other:T) = n.min(rep, other)
-
+  def inRange(min:T, max:T) = {
+    val dmin = n.toDouble(min)
+    val dmax = n.toDouble(max)
+    val d = n.toDouble(rep)
+    d >= dmin && d < dmax
+  }
   def isEven:Boolean = n.toInt(rep) % 2 == 0
   def isOdd:Boolean = n.toInt(rep) % 2 == 1
 
