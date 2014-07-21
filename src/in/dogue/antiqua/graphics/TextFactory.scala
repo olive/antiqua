@@ -28,7 +28,7 @@ case class TextFactory(bgColor:Color, fgColor:Color, unicodeToCode:Char => Code)
 
   def fromLines(s:Seq[String]):TileGroup = {
     val res = (s map create).zipWithIndex.map { case (line, k) =>
-      line.toTileGroup |+| (0, k)
+      line.toTileGroup |++| (0, k)
     }.toSeq
     res.flatten
   }

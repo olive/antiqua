@@ -32,7 +32,7 @@ case class Border(
   }
 
   def draw(pq:Cell)(tr:TileRenderer):TileRenderer = {
-    tr <++ (edges |+| pq)
+    tr <++ (edges |++| pq)
   }
 
   def filterDraw(ij:Cell, f:Cell => Boolean)(tr:TileRenderer):TileRenderer = {

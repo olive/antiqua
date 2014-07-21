@@ -22,7 +22,7 @@ object Rect {
 case class Rect(cols:Int, rows:Int, tiles:TileGroup) {
   def update = this
   def draw(ij:Cell)(tr:TileRenderer):TileRenderer = {
-    tr <++ (tiles |+| ij)
+    tr <++ (tiles |++| ij)
   }
 
   def filterDraw(ij:Cell, f:Cell => Boolean)(tr:TileRenderer):TileRenderer = {
