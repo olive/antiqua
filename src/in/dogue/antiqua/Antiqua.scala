@@ -8,7 +8,7 @@ object Antiqua {
   type TileGroup = Seq[(Cell,Tile)]
   type AnimationGroup = Seq[(Cell,Animation)]
   type Cell = (Int,Int)
-  implicit def any2Aug[A](a:A) = new AugAny(a)
+  implicit def any2Aug[A](a: => A) = new AugAny(a)
   implicit def opt2Aug[A](o:Option[A]) = new AugOption(o)
   implicit def bool2Aug(b:Boolean) = new AugBool(b)
   implicit def indexedSeq2Aug[A](s:IndexedSeq[A]) = new AugIndexedSeq(s)
