@@ -1,7 +1,5 @@
 package in.dogue.antiqua.algebra
 
-import in.dogue.antiqua.algebra
-
 trait Monoid[M] {
   def zero:M
   def add(m1:M, m2:M):M
@@ -23,10 +21,18 @@ object Monoid {
     def zero = 0
     def add(i:Int, j:Int) = i + j
   }
-  type SomeT = T forSome {type T}
+
   implicit object ListMonoid extends Monoid[List[SomeT]] {
     def zero = List()
     def add(a:List[SomeT], b:List[SomeT]) = a ++ b
+  }
+  type SomeT = T forSome {type T}
+
+
+  implicit def seqMonoid[A]: Monoid[Seq[A]] = new Monoid[Seq[A]] {
+    override def zero: Seq[A] = Seq()
+
+    override def add(a:Seq[A], b:Seq[A]) = a ++ b
   }
 
   implicit def mkMonoidOps[T](lhs:T)(implicit ev:Monoid[T])  = new ev.MonoidOps(lhs)

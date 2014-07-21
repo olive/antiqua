@@ -2,6 +2,7 @@ package in.dogue.antiqua
 
 import in.dogue.antiqua.data._
 import in.dogue.antiqua.graphics.{Animation, Tile}
+import in.dogue.antiqua.algebra.Monoid
 
 object Antiqua {
   type TileGroup = Seq[(Int,Int,Tile)]
@@ -21,4 +22,6 @@ object Antiqua {
   @inline def id[T](t:T) = t
 
   def impossible = throw new Exception("Impossible")
+
+
 }
