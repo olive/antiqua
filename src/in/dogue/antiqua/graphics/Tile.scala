@@ -8,7 +8,7 @@ import com.deweyvm.gleany.AssetLoader
 object Tile {
   def makeGroup(cs:Vector[(Int,Int,Code,Color,Color)]):TileGroup = {
     cs.map { case (i, j, c, bg, fg) =>
-      (i, j, c.mkTile(bg, fg))
+      ((i, j), c.mkTile(bg, fg))
     }
   }
 

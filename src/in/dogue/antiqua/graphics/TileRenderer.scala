@@ -6,17 +6,17 @@ import in.dogue.antiqua.Antiqua
 import Antiqua._
 
 object TileRenderer {
-  def create = TileRenderer(Map(), Seq(), 0, 0)
+  def create = TileRenderer(Map(), Seq(), (0,0))
 }
 /** Applies a function to all on-screen tiles */
 case class Filter(f:Cell => (Tile => Tile), origin:(Int,Int))
 
-case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], originX:Int, originY:Int) {
-  def move(i:Int, j:Int) = copy(originX = originX + i, originY = originY + j)
+case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], origin:(Int,Int)) {
+  def move(i:Int, j:Int) = copy(origin = origin |+| ((i, j)))
   def movet(ij:(Int,Int)) = move(ij._1, ij._2)
-  def project(rect:Recti) = Recti(originX, originY, 0, 0) + rect
+  def project(rect:Recti) = Recti(origin.x, origin.y, 0, 0) + rect
   def withFilter(f:Cell => (Tile => Tile))(g:TileRenderer => TileRenderer) = {
-    val filter = Filter(f, (originX, originY))
+    val filter = Filter(f, origin)
     val tr = copy(filters = filters :+ filter)
     this <*< g(tr)
   }
@@ -28,19 +28,19 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
   /**
    * Draws only the foreground of the given tile
    */
-  def <|(i:Int, j:Int, fg:Tile) = {
-    val t = draws.get((i + originX, j + originY))
+  def <|(ij:Cell, fg:Tile) = {
+    val t = draws.get(ij |+| origin)
     t.map(tile => {
-      this <+ (i, j, tile.setFg(fg.fgColor).setCode(fg.code))
+      this <+ (ij, tile.setFg(fg.fgColor).setCode(fg.code))
     }).getOrElse(this)
   }
 
-  def <|?(opt:Option[(Int, Int, Tile)]) = {
+  def <|?(opt:Option[(Cell, Tile)]) = {
     opt.foldLeft(this){_ <|~ _}
   }
 
-  def <|~ :((Int,Int,Tile)) => TileRenderer = { case (i, j, f) =>
-    <|(i, j, f)
+  def <|~ :((Cell,Tile)) => TileRenderer = { case (p, f) =>
+    <|(p, f)
   }
 
   def <||(s:TileGroup) = {
@@ -50,15 +50,15 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
   /**
    * Draws only the foreground if there is already a tile in that place, else draws both foreground and background
    */
-  def <+|(i:Int, j:Int, fg:Tile) = {
-    val t = draws.get((i + originX, j + originY))
+  def <+|(ij:Cell, fg:Tile) = {
+    val t = draws.get(ij |+| origin)
     t.map(tile => {
-      this <+ (i, j, tile.setFg(fg.fgColor).setCode(fg.code))
-    }).getOrElse(this <+ (i, j, fg))
+      this <+ (ij, tile.setFg(fg.fgColor).setCode(fg.code))
+    }).getOrElse(this <+ (ij, fg))
   }
 
-  def <+|~ :((Int,Int,Tile)) => TileRenderer = { case (i, j, f) =>
-    <+|(i, j, f)
+  def <+|~ :((Cell,Tile)) => TileRenderer = { case (ij, f) =>
+    <+|(ij, f)
   }
 
   def <++|(s:TileGroup) = {
@@ -69,27 +69,26 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
    * Applies the given function to the tile at (i, j). If no tile is
    * present, nothing happens.
    */
-  def `$>`(i:Int, j:Int, f:Tile => Tile):TileRenderer = {
-    val t = draws.get((i + originX, j + originY))
+  def `$>`(ij:Cell, f:Tile => Tile):TileRenderer = {
+    val t = draws.get(ij |+| origin)
     t.map(tile => {
-      this <+ (i, j, f(tile))
+      this <+ (ij, f(tile))
     }).getOrElse(this)
   }
 
-  def `~$>`:((Int,Int,Tile=>Tile)) => TileRenderer = { case (i, j, f) =>
-    `$>`(i, j, f)
+  def `~$>`:((Cell,Tile=>Tile)) => TileRenderer = { case (p, f) =>
+    `$>`(p, f)
   }
 
-  def `$$>`(s:Seq[(Int, Int, Tile => Tile)]):TileRenderer = {
+  def `$$>`(s:Seq[(Cell, Tile => Tile)]):TileRenderer = {
     s.foldLeft(this){ _ `~$>` _}
   }
 
   /**
    * Draw the given tile at (i, j)
    */
-  def <+(p:Int, q:Int, tile:Tile) = {
-    val i = p + originX
-    val j = q + originY
+  def <+(pq:Cell, tile:Tile) = {
+    val (i, j) = pq |+| origin
     val cols = 32
     val rows = 32 + 16
     if (i < 0 || i > cols - 1 || j < 0 || j > rows - 1) {
@@ -100,21 +99,17 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
     }
   }
 
-  def <+~ : ((Int,Int,Tile)) => TileRenderer = { case (i, j, f) =>
-    <+(i, j, f)
+  def <+~ : ((Cell,Tile)) => TileRenderer = { case (ij, f) =>
+    <+(ij, f)
   }
 
-  def <+?(t:Option[(Int,Int,Tile)]): TileRenderer = {
+  def <+?(t:Option[(Cell,Tile)]): TileRenderer = {
     t.map {this <+~ _}.getOrElse(this)
   }
 
   def <++(draws:TileGroup): TileRenderer = {
     draws.foldLeft(this) { _ <+~ _ }
   }
-
-  def <+++(draws:Array2d[Tile]):TileRenderer = {
-    draws.foldLeft(this){ _ <+~ _ }
-    }
 
   /** Apply a draw function to this renderer */
   def <+<(f:TileRenderer => TileRenderer): TileRenderer = {
@@ -130,9 +125,9 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
   }
 
   /** Draw an animation group */
-  def <##(draws:Seq[(Int,Int,Animation)]) = {
-    draws.foldLeft(this) { case (tr, (i, j, a)) =>
-      tr <+< a.draw(i, j)
+  def <##(draws:Seq[(Cell,Animation)]) = {
+    draws.foldLeft(this) { case (tr, (p, a)) =>
+      tr <+< a.draw(p)
     }
   }
 
@@ -140,12 +135,12 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
    * Copies all draws from other to this, ignoring other's origin and filters
    */
   def <*<(other:TileRenderer) = {
-    TileRenderer(draws ++ other.getDraws, Seq(), originX, originY)
+    TileRenderer(draws ++ other.getDraws, Seq(), origin)
   }
 
   /** Clear the given renderer preserving its origin */
   def ^^^() = {
-    TileRenderer(Map(), Seq(), originX, originY)
+    TileRenderer(Map(), Seq(), origin)
   }
 
   def getDraws:Map[Cell,Tile] = {
@@ -163,6 +158,6 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
   }
 
   override def toString:String = {
-    "TileRenderer@(%d,%d) draws(%d)" format (originX, originY, draws.count{case (_,_) => true})
+    "TileRenderer@(%d,%d) draws(%d)" format (origin.x, origin.y, draws.count{case (_,_) => true})
   }
 }

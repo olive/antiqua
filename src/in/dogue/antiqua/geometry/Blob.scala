@@ -32,7 +32,7 @@ object Blob {
         poly.contains(Point2d(i, j))
       }
 
-      if (mask.count{case (_, _, b) => b} < threshold) {
+      if (mask.count{case (_, b) => b} < threshold) {
         found = false
       }
       count += 1
@@ -41,12 +41,12 @@ object Blob {
         return makeDegenerate(cols, rows, threshold)
       }
     }
-    val result = mask.map { case (i, j, b) =>
-      def get(i:Int, j:Int) = mask.getOption(i, j).getOrElse(false)
-      val left = get(i - 1, j)
-      val right = get(i + 1, j)
-      val up = get(i, j - 1)
-      val down = get(i, j + 1)
+    val result = mask.map { case (ij, b) =>
+      def get(ij:Cell) = mask.getOption(ij).getOrElse(false)
+      val left = get(ij |- 1)
+      val right = get(ij |+ 1)
+      val up = get(ij -| 1)
+      val down = get(ij +| 1)
       b && (left || right || up || down)
     }
     Blob(result, poly, result.flatten.getSpan)

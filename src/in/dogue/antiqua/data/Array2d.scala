@@ -28,8 +28,8 @@ object Array2d {
 
   def unsafeGetElements[T](a:Array2d[T]):IndexedSeq[T] = a.elements
 
-  def indexToCoords(k:Int, cols:Int):(Int,Int) = (k % cols, k / cols)
-  def coordsToIndex(i:Int, j:Int, cols:Int):Int = i + j*cols
+  def indexToCoords(k:Int, cols:Int):Cell = (k % cols, k / cols)
+  def coordsToIndex(ij:Cell, cols:Int):Int = ij.x + ij.y*cols
 }
 
 
@@ -42,36 +42,36 @@ class Array2d[T](private val elements:Vector[T],
 
   def strictGetAll:IndexedSeq[T] = elements
 
-  def count(f:(Int,Int,T)=>Boolean):Int = {
+  def count(f:(Cell,T)=>Boolean):Int = {
     elements.zipWithIndex.count {case (t, k) =>
-      val (i, j) = indexToCoords(k, cols)
-      f(i, j, t)
+      val ij = indexToCoords(k, cols)
+      f(ij, t)
     }
   }
 
-  def map[K](f:(Int,Int,T)=>K) = {
-    Array2d.tabulate(cols, rows) { case (i, j) =>
-      val elt = get(i, j)
-      f(i, j, elt)
+  def map[K](f:(Cell,T)=>K) = {
+    Array2d.tabulate(cols, rows) { case ij =>
+      val elt = get(ij)
+      f(ij, elt)
     }
   }
 
-  def flatten:Seq[(Int,Int,T)] = {
-    map[(Int,Int,T)]{case (x, y, z) => (x, y, z)}.elements
+  def flatten:Seq[(Cell,T)] = {
+    map[(Cell,T)]{case (p, z) => (p, z)}.elements
 
   }
 
-  def update(i:Int, j:Int, f:T => T) = {
-    val k = coordsToIndex(i, j, cols)
-    getOption(i, j).map {t =>
+  def update(ij:Cell, f:T => T) = {
+    val k = coordsToIndex(ij, cols)
+    getOption(ij).map {t =>
       new Array2d(elements.updated(k, f(t)), cols, rows)
     }.getOrElse{
       this
     }
   }
 
-  def updated(i:Int, j:Int, t:T) = {
-    val k = coordsToIndex(i, j, cols)
+  def updated(ij:Cell, t:T) = {
+    val k = coordsToIndex(ij, cols)
     new Array2d(elements.updated(k, t), cols, rows)
   }
 
@@ -80,23 +80,25 @@ class Array2d[T](private val elements:Vector[T],
   def max[K >: T](implicit cmp: Ordering[K]):T = elements.max(cmp)
   def min[K >: T](implicit cmp: Ordering[K]):T = elements.min(cmp)
 
-  def find(f:T=> Boolean):Option[(Int, Int, T)] = {
+  def find(f:T=> Boolean):Option[(Cell, T)] = {
     elements.zipWithIndex.find {case (e, i) =>
       f(e)
     }.flatMap{case (e, i) =>
-      val (x, y) = indexToCoords(i, cols)
-      (x, y, e).some
+      val xy = indexToCoords(i, cols)
+      (xy, e).some
     }
   }
 
-  private def outside(i:Int, j:Int) = {
+  private def outside(ij:Cell) = {
+    val i = ij.x
+    val j = ij.y
     i < 0 || j < 0 || i > cols - 1 || j > rows - 1
   }
 
-  def swap(i:Int, j:Int, p:Int, q:Int) = {
-    val k = coordsToIndex(i, j, cols)
-    val r = coordsToIndex(p, q, cols)
-    if (outside(i, j) || outside(p, q)) {
+  def swap(ij:Cell, pq:Cell) = {
+    val k = coordsToIndex(ij, cols)
+    val r = coordsToIndex(pq, cols)
+    if (outside(ij) || outside(pq)) {
       this
     } else {
       val temp = elements(k)
@@ -104,23 +106,23 @@ class Array2d[T](private val elements:Vector[T],
     }
   }
 
-  def foldLeft[R](r:R)(f:(R, (Int,Int,T)) => R): R = {
+  def foldLeft[R](r:R)(f:(R, (Cell,T)) => R): R = {
     elements.zipWithIndex.foldLeft(r) { case (acc, (e, k)) =>
-      val (i, j) = indexToCoords(k, cols)
-      f(acc,(i, j, e))
+      val ij = indexToCoords(k, cols)
+      f(acc,(ij, e))
     }
   }
 
-  def get(i:Int, j:Int):T = {
-    val k = coordsToIndex(i, j, cols)
+  def get(ij:Cell):T = {
+    val k = coordsToIndex(ij, cols)
     elements(k)
   }
 
-  def getOption(i:Int, j:Int):Option[T] = {
-    if (i < 0 || j < 0 || i > cols - 1 || j > rows - 1) {
+  def getOption(ij:Cell):Option[T] = {
+    if (outside(ij)) {
       None
     } else {
-      get(i, j).some
+      get(ij).some
     }
   }
 }

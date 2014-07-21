@@ -10,30 +10,30 @@ case class Text(tiles:Vector[Tile], f:TextFactory)  {
     Text(tiles ++ other.tiles, f)
   }
 
-  def toTileGroup = tiles.zipWithIndex.map { case (t, i) => (i, 0, t)}
+  def toTileGroup = tiles.zipWithIndex.map { case (t, i) => ((i, 0), t)}
   def filterToTileGroup(f:Tile=>Boolean) = tiles.zipWithIndex.map { case (t, i) =>
     if (f(t)) {
-      (i, 0, t).some
+      ((i, 0), t).some
     } else {
       None
     }
   }.flatten
   def mapF(func:TextFactory=>TextFactory) = copy(f=func(f))
 
-  def draw(i:Int, j:Int)(r:TileRenderer):TileRenderer = {
-    drawSub(tiles.length)(i, j)(r)
+  def draw(ij:Cell)(r:TileRenderer):TileRenderer = {
+    drawSub(tiles.length)(ij)(r)
   }
 
-  def drawSub(index:Int)(i:Int, j:Int)(r:TileRenderer):TileRenderer = {
-    r <++ tiles.take(index).zipWithIndex.map{case (t, k) => (i + k, j, t)}
+  def drawSub(index:Int)(ij:Cell)(r:TileRenderer):TileRenderer = {
+    r <++ tiles.take(index).zipWithIndex.map{case (t, k) => (ij |+ k, t)}
   }
 
-  def drawFg(i:Int, j:Int)(r:TileRenderer):TileRenderer = {
-    drawFgSub(tiles.length)(i, j)(r)
+  def drawFg(ij:Cell)(r:TileRenderer):TileRenderer = {
+    drawFgSub(tiles.length)(ij)(r)
   }
 
-  def drawFgSub(index:Int)(i:Int, j:Int)(r:TileRenderer):TileRenderer = {
-    r <++| tiles.take(index).zipWithIndex.map{case (t, k) => (i + k, j, t)}
+  def drawFgSub(index:Int)(ij:Cell)(r:TileRenderer):TileRenderer = {
+    r <++| tiles.take(index).zipWithIndex.map{case (t, k) => (ij |+ k, t)}
   }
 
 }

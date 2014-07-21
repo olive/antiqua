@@ -1,6 +1,7 @@
 package in.dogue.antiqua.graphics
 
 import com.deweyvm.gleany.graphics.Color
+import in.dogue.antiqua.Antiqua.Cell
 
 object Animation {
   def create(frames:Vector[(Int,Tile)]) = {
@@ -27,8 +28,8 @@ case class Animation(frames:Vector[(Int,Tile)], ptr:Int, t:Int) {
   }
 
   /** Draw the animation with the given foreground color rather than the Tile's color. */
-  def drawWithFg(c:Color, i:Int, j:Int)(tr:TileRenderer):TileRenderer = {
-    tr <| (i, j, getTile.setFg(c))
+  def drawWithFg(c:Color, ij:Cell)(tr:TileRenderer):TileRenderer = {
+    tr <| (ij, getTile.setFg(c))
   }
 
   def getTile = frames(ptr)._2
@@ -42,11 +43,11 @@ case class Animation(frames:Vector[(Int,Tile)], ptr:Int, t:Int) {
     copy(frames=newFrames)
   }
 
-  def draw(i:Int, j:Int)(tr:TileRenderer):TileRenderer = {
-    tr <+ (i, j, getTile)
+  def draw(ij:Cell)(tr:TileRenderer):TileRenderer = {
+    tr <+ (ij, getTile)
   }
 
-  def drawFg(i:Int, j:Int)(tr:TileRenderer):TileRenderer = {
-    tr <| (i, j, getTile)
+  def drawFg(ij:Cell)(tr:TileRenderer):TileRenderer = {
+    tr <| (ij, getTile)
   }
 }

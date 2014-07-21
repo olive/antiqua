@@ -3,6 +3,9 @@ package in.dogue.antiqua.ui
 import in.dogue.antiqua.graphics._
 import in.dogue.antiqua.graphics.Text
 import in.dogue.antiqua.data.Code
+import in.dogue.antiqua.Antiqua.Cell
+import in.dogue.antiqua.Antiqua
+import Antiqua._
 
 object TextLine {
   def create(v:Text, sound:() => Unit, isBlank:Code=>Boolean) = TextLine(v, sound, isBlank, 0, 0)
@@ -21,8 +24,8 @@ case class TextLine(v:Text, sound: () => Unit, isBlank:Code=>Boolean, ptr:Int, t
     }
     copy(ptr=Math.min(v.length, newPtr), t=newT)
   }
-  def draw(i:Int, j:Int)(tr:TileRenderer):TileRenderer = {
-    tr <+< v.drawFgSub(ptr)(i, j)
+  def draw(ij:Cell)(tr:TileRenderer):TileRenderer = {
+    tr <+< v.drawFgSub(ptr)(ij)
   }
 }
 
@@ -46,10 +49,10 @@ case class TextBox private (lines:Vector[TextLine], ptr:Int) {
       this
     }
   }
-  def draw(i:Int, j:Int)(tr:TileRenderer):TileRenderer = {
+  def draw(ij:Cell)(tr:TileRenderer):TileRenderer = {
     val bound = Math.min(lines.length, ptr + 1)
     tr <++< (for (k <- 0 until bound) yield {
-      lines(k).draw(i, j+k) _
+      lines(k).draw(ij +| k) _
     })
   }
 
