@@ -145,12 +145,12 @@ case class TileRenderer(cols:Int, rows:Int, private val draws:Map[Cell, Tile], f
     if (filters.length == 0) {
       draws
     } else {
-      draws.map{ case (cell, t) =>
+      draws.par.map{ case (cell, t) =>
         val tt = filters.foldLeft(t) { case (tile, f) =>
           f.f(cell)(tile)
         }
         cell -> tt
-      }.toMap
+      }.seq.toMap
 
     }
   }
