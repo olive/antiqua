@@ -6,12 +6,12 @@ import in.dogue.antiqua.Antiqua
 import Antiqua._
 
 object TileRenderer {
-  def create = TileRenderer(Map(), Seq(), (0,0))
+  def create(cols:Int, rows:Int)  = TileRenderer(cols, rows, Map(), Seq(), (0,0))
 }
 /** Applies a function to all on-screen tiles */
 case class Filter(f:Cell => (Tile => Tile), origin:(Int,Int))
 
-case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], origin:(Int,Int)) {
+case class TileRenderer(cols:Int, rows:Int, private val draws:Map[Cell, Tile], filters:Seq[Filter], origin:(Int,Int)) {
   def move(i:Int, j:Int) = copy(origin = origin |+| ((i, j)))
   def movet(ij:(Int,Int)) = move(ij._1, ij._2)
   def project(rect:Recti) = Recti(origin.x, origin.y, 0, 0) + rect
@@ -89,8 +89,6 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
    */
   def <+(pq:Cell, tile:Tile) = {
     val (i, j) = pq |+| origin
-    val cols = 32
-    val rows = 32 + 16
     if (i < 0 || i > cols - 1 || j < 0 || j > rows - 1) {
       this
     } else {
@@ -135,12 +133,12 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
    * Copies all draws from other to this, ignoring other's origin and filters
    */
   def <*<(other:TileRenderer) = {
-    TileRenderer(draws ++ other.getDraws, Seq(), origin)
+    TileRenderer(cols, rows, draws ++ other.getDraws, Seq(), origin)
   }
 
   /** Clear the given renderer preserving its origin */
   def ^^^() = {
-    TileRenderer(Map(), Seq(), origin)
+    TileRenderer(cols, rows, Map(), Seq(), origin)
   }
 
   def getDraws:Map[Cell,Tile] = {
