@@ -149,7 +149,7 @@ case class TileRenderer(private val draws:Map[Cell, Tile], filters:Seq[Filter], 
     } else {
       draws.map{ case (cell, t) =>
         val tt = filters.foldLeft(t) { case (tile, f) =>
-          f.f(cell |-| f.origin)(tile)
+          f.f(cell)(tile)
         }
         cell -> tt
       }.toMap
