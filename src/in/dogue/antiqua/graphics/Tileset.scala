@@ -19,6 +19,6 @@ case class Tileset(cols:Int, rows:Int, tileWidth:Int, tileHeight:Int, t:Texture)
   val blank = makeRegion(cols, rows)
 
   def getRegion(i:Int, j:Int):TextureRegion = {
-    regions.get(i, j)
+    regions.get((i, j))
   }
 }
