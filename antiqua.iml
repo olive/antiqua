@@ -5,8 +5,7 @@
       <configuration>
         <option name="compilerLibraryLevel" value="Global" />
         <option name="compilerLibraryName" value="scala-compiler" />
-        <option name="compilerOptions" value="-Yinline-warnings" />
-        <option name="optimiseBytecode" value="true" />
+        <option name="compilerOptions" value="-deprecation -feature -unchecked -Xlint -Yno-adapted-args -Ywarn-value-discard -Xfatal-warnings -language:implicitConversions -language:higherKinds -language:existentials -language:postfixOps -Yinline-warnings" />
       </configuration>
     </facet>
   </component>
