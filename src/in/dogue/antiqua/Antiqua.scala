@@ -18,9 +18,9 @@ object Antiqua {
   implicit def intTup2Aug[A](tup:(Int,Int)) = new AugIntPair(tup)
   implicit def int2Aug(i:Int) = new AugInt(i)
   implicit def cp437_2Code(cp:CP437) = new Code(cp.index)
+  implicit def tup4_2AugTup[A,B,C,D](tup:(A,B,C,D)) = new AugTuple4(tup)
   @inline def id[T](t:T) = t
 
   def impossible = throw new Exception("Impossible")
-
 
 }
