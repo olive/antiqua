@@ -15,6 +15,7 @@ object Animation {
   def makeBlinker(speed:Int, tiles:Vector[Tile]) = {
     create((0 until tiles.length).map { (i:Int) => speed}.zip(tiles).toVector)
   }
+
 }
 
 case class Animation(frames:Vector[(Int,Tile)], ptr:Int, t:Int) {

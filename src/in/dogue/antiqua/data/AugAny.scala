@@ -8,5 +8,9 @@ class AugAny[T](t: => T) {
   @inline
   def dup = (t, t)
 
+  @inline
   def @@[B](b:B) = (t, b)
+
+  @inline
+  def seq = Seq(t)
 }
