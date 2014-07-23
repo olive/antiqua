@@ -4,6 +4,7 @@ import com.deweyvm.gleany.graphics.Color
 import in.dogue.antiqua.data.{Array2d, Code}
 import in.dogue.antiqua.Antiqua.TileGroup
 import com.deweyvm.gleany.AssetLoader
+import in.dogue.antiqua.utils.TmxMap
 
 object Tile {
   def makeGroup(cs:Vector[(Int,Int,Code,Color,Color)]):TileGroup = {
@@ -13,13 +14,10 @@ object Tile {
   }
 
   def groupFromFile(name:String, layer:String, intToCode:Int => Code, codeToTile:Code => Tile):TileGroup = {
-    val tiles = AssetLoader.loadTmx(name).getTileLayer(layer)
-    val rows = tiles.length
-    val cols = tiles(0).length
-    Array2d.tabulate(cols, rows) { case (i, j) =>
-      codeToTile(intToCode(tiles(j)(i)))
+    val tiles = new TmxMap(name, layer)
+    Array2d.tabulate(tiles.cols, tiles.rows) { case p =>
+      codeToTile(intToCode(tiles.get(p)))
     }.flatten
-
   }
 }
 
