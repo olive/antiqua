@@ -7,4 +7,6 @@ class AugAny[T](t: => T) {
   def onlyIf(b:Boolean):Option[T] = if (b) Some(t) else None
   @inline
   def dup = (t, t)
+
+  def @@[B](b:B) = (t, b)
 }

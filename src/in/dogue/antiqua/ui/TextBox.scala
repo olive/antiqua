@@ -11,6 +11,7 @@ object TextLine {
   def create(v:Text, sound:() => Unit, isBlank:Code=>Boolean) = TextLine(v, sound, isBlank, 0, 0)
 }
 case class TextLine(v:Text, sound: () => Unit, isBlank:Code=>Boolean, ptr:Int, t:Int) {
+  def reset = copy(t=0, ptr=0)
   val speed = 2
   def isFinished = ptr >= v.length
   def update = {
@@ -35,7 +36,7 @@ object TextBox {
 }
 
 case class TextBox private (lines:Vector[TextLine], ptr:Int) {
-
+  def reset = copy(lines=lines.map{_.reset}, ptr=0)
   def atEnd = ptr >= lines.length
   private def updateLast() = {
     lines.updated(ptr, lines(ptr).update)

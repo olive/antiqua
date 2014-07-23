@@ -15,9 +15,14 @@ case class TileRenderer(cols:Int, rows:Int, private val draws:Map[Cell, Tile], f
   def move(i:Int, j:Int) = copy(origin = origin |+| ((i, j)))
   def movet(ij:(Int,Int)) = move(ij._1, ij._2)
   def project(rect:Recti) = Recti(origin.x, origin.y, 0, 0) + rect
-  def withFilter(f:Cell => (Tile => Tile))(g:TileRenderer => TileRenderer) = {
-    val filter = Filter(f, origin)
-    val tr = copy(filters = filters :+ filter)
+  type Filter = Cell => (Tile => Tile)
+  def withFilter(f:Filter)(g:TileRenderer => TileRenderer) = {
+    withFilters(Seq(f))(g)
+  }
+
+  def withFilters(f:Seq[Filter])(g:TileRenderer => TileRenderer) = {
+    val fs = f.map { f => Filter(f, origin) }
+    val tr = copy(filters = filters ++ fs)
     this <*< g(tr)
   }
 

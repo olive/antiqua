@@ -5,6 +5,7 @@ import in.dogue.antiqua.Antiqua
 import Antiqua._
 import scala.collection.mutable.ArrayBuffer
 object Line {
+  @inline def bresenhamTup(s:Cell, d:Cell) = bresenham(s._1, s._2, d._1, d._2)
   def bresenham(sx:Int, sy:Int, endX:Int, endY:Int):Seq[(Int,Int)] = {
     var startX = sx
     var startY = sy
