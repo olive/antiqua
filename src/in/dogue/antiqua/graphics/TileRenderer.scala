@@ -114,6 +114,10 @@ case class TileRenderer(cols:Int, rows:Int, private val draws:Map[Cell, Tile], f
     draws.foldLeft(this) { _ <+~ _ }
   }
 
+  def <+++(draws:Seq[TileGroup]): TileRenderer = {
+    draws.foldLeft(this) { _ <++ _ }
+  }
+
   /** Apply a draw function to this renderer */
   def <+<(f:TileRenderer => TileRenderer): TileRenderer = {
     f(this)
