@@ -1,6 +1,6 @@
 package in.dogue.antiqua.graphics
 
-import com.badlogic.gdx.graphics.{GL10, Texture}
+import com.badlogic.gdx.graphics.{GL20, Texture}
 import com.deweyvm.gleany.graphics.Color
 import com.deweyvm.gleany.data.Point2d
 import com.badlogic.gdx.graphics.g2d.{Sprite, TextureRegion, SpriteBatch}
@@ -126,7 +126,7 @@ class Renderer(screenWidth:Int, screenHeight:Int, zoom:Int, tileset:Tileset){
 
   def render(r:TileRenderer):TileRenderer = {
     Gdx.gl.glClearColor(0,0,0,1)
-    Gdx.gl.glClear(GL10.GL_DEPTH_BUFFER_BIT | GL10.GL_COLOR_BUFFER_BIT)
+    Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT | GL20.GL_COLOR_BUFFER_BIT)
     batch.begin()
     batch.setProjectionMatrix(camera.getProjection)
     r.getDraws.foreach {case((i, j), t) =>
