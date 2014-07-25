@@ -30,6 +30,8 @@ object Array2d {
 
   def indexToCoords(k:Int, cols:Int):Cell = (k % cols, k / cols)
   def coordsToIndex(ij:Cell, cols:Int):Int = ij.x + ij.y*cols
+
+
 }
 
 
