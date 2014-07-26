@@ -10,9 +10,7 @@ class Future[T](f:() => T) {
   def update:FutureState[T] = {
     this.synchronized {
       error.map(FutureError.apply).getOrElse(value.map(FutureFinished.apply).getOrElse(FutureComputing))
-
     }
-
   }
 
   private def dispatch() = {

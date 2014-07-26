@@ -12,6 +12,7 @@ object TileRenderer {
 case class Filter(f:Cell => (Tile => Tile), origin:(Int,Int))
 
 case class TileRenderer(cols:Int, rows:Int, private val draws:Map[Cell, Tile], filters:Seq[Filter], origin:(Int,Int)) {
+  def screen = Recti(0, 0, cols, rows)
   def move(i:Int, j:Int) = copy(origin = origin |+| ((i, j)))
   def movet(ij:(Int,Int)) = move(ij._1, ij._2)
   def project(rect:Recti) = Recti(origin.x, origin.y, 0, 0) + rect
