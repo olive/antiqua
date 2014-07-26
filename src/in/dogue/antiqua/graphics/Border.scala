@@ -31,6 +31,8 @@ case class Border(
     upLeft ++ top ++ upRight ++ right ++ downRight ++ bottom ++ downLeft ++ left
   }
 
+  def toTileGroup = edges
+
   def draw(pq:Cell)(tr:TileRenderer):TileRenderer = {
     tr <++ (edges |++| pq)
   }

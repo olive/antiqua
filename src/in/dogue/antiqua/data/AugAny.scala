@@ -13,4 +13,6 @@ class AugAny[T](t: => T) {
 
   @inline
   def seq = Seq(t)
+
+  def doo[K](f:T=>K) = f(t)
 }
