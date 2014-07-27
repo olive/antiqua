@@ -5,6 +5,11 @@ class AugAny[T](t: => T) {
   def some:Option[T] = Some(t)
   @inline
   def onlyIf(b:Boolean):Option[T] = if (b) Some(t) else None
+
+  @inline
+  def onlyIfs(b:Boolean):Seq[T] = if(b) Seq(t) else Seq()
+
+
   @inline
   def dup = (t, t)
 
