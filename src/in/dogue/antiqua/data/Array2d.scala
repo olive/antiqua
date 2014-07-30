@@ -58,6 +58,13 @@ class Array2d[T](private val elements:Vector[T],
     }
   }
 
+  def foreach(f:(Cell,T) => Unit) = {
+    Array2d.tabulate(cols, rows) { case ij =>
+      val elt = get(ij)
+      f(ij, elt)
+    }
+  }
+
   def flatten:Seq[(Cell,T)] = {
     map[(Cell,T)]{case (p, z) => (p, z)}.elements
 

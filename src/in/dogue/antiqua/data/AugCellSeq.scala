@@ -11,15 +11,21 @@ class AugCellSeq[T](s:Seq[(Cell, T)]) {
   def |++(p:Int) = s.map { case ((i, j), t) => ((i + p, j), t)}
   def sfilter(f:T => Boolean) = s.filter { case ((i, j), t) => f(t)}
   def getSpan = {
+    getFilterSpan(_ => true)
+  }
+
+  def getFilterSpan(f:T => Boolean) = {
     var mini = Int.MaxValue
     var maxi = 0
     var minj = Int.MaxValue
     var maxj = 0
     for (((i, j), t) <- s) {
-      mini = Math.min(i, mini)
-      maxi = Math.max(i, maxi)
-      minj = Math.min(j, minj)
-      maxj = Math.max(j, maxj)
+      if (f(t)) {
+        mini = Math.min(i, mini)
+        maxi = Math.max(i, maxi)
+        minj = Math.min(j, minj)
+        maxj = Math.max(j, maxj)
+      }
     }
     Recti(mini,minj, maxi - mini + 1, maxj - minj + 1)
   }
