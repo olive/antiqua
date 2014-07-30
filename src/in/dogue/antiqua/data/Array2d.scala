@@ -58,11 +58,12 @@ class Array2d[T](private val elements:Vector[T],
     }
   }
 
-  def foreach(f:(Cell,T) => Unit) = {
-    Array2d.tabulate(cols, rows) { case ij =>
+  def foreach(f:(Cell,T) => Unit) {
+    val _ = Array2d.tabulate(cols, rows) { case ij =>
       val elt = get(ij)
       f(ij, elt)
     }
+    ()
   }
 
   def flatten:Seq[(Cell,T)] = {
@@ -114,6 +115,8 @@ class Array2d[T](private val elements:Vector[T],
       new Array2d(elements.updated(k, elements(r)).updated(r, temp), cols, rows)
     }
   }
+
+  def first:Option[T] = getOption((0,0))
 
   def foldLeft[R](r:R)(f:(R, (Cell,T)) => R): R = {
     elements.zipWithIndex.foldLeft(r) { case (acc, (e, k)) =>

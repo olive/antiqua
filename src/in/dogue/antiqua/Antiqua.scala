@@ -23,6 +23,7 @@ object Antiqua {
   implicit def tup4_2AugTup[A,B,C,D](tup:(A,B,C,D)) = new AugTuple4(tup)
   implicit def tup5_2AugTup[A,B,C,D,E](tup:(A,B,C,D,E)) = new AugTuple5(tup)
   implicit def array2dPair2Aug[A,B](a:Array2d[(A,B)]) = new AugArray2dPair(a)
+  implicit def set2Aug[A](a:Set[A]) = new AugSet(a)
   @inline def id[T](t:T) = t
 
   def impossible = throw new Exception("Impossible")
