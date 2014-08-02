@@ -18,6 +18,7 @@ object Antiqua {
   implicit def intTup2Aug[A](tup:(Int,Int)) = new AugIntPair(tup)
   implicit def int2Aug(i:Int) = new AugInt(i)
   implicit def cp437_2Code(cp:CP437) = new Code(cp.index)
+  implicit def sameTup2_2Aug[A](tup:(A,A)) = new AugSamePair(tup)
   implicit def tup2_2AugTup[A,B](tup:(A,B)) = new AugTuple2(tup)
   implicit def tup3_2AugTup[A,B,C](tup:(A,B,C)) = new AugTuple3(tup)
   implicit def tup4_2AugTup[A,B,C,D](tup:(A,B,C,D)) = new AugTuple4(tup)
