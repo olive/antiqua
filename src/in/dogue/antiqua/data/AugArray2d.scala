@@ -8,7 +8,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 class AugArray2d[T](arr:Array2d[T]) {
-  def render(f:T => Color, path:String) {
+  def render(path:String)(f:T => Color) {
     def cl(c:Color) = com.badlogic.gdx.graphics.Color.rgb888(c.toLibgdxColor)
     val img = new BufferedImage(arr.cols, arr.rows, BufferedImage.TYPE_INT_RGB)
     arr.foreach { case (p, t) =>
