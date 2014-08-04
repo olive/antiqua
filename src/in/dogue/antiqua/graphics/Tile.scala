@@ -3,7 +3,6 @@ package in.dogue.antiqua.graphics
 import com.deweyvm.gleany.graphics.Color
 import in.dogue.antiqua.data.{Array2d, Code}
 import in.dogue.antiqua.Antiqua.TileGroup
-import com.deweyvm.gleany.AssetLoader
 import in.dogue.antiqua.utils.TmxMap
 
 object Tile {
