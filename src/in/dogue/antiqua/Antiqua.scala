@@ -17,6 +17,7 @@ object Antiqua {
   implicit def seq2AugCellSeq[A](seq:Seq[(Cell,A)]) = new AugCellSeq(seq)
   implicit def intTup2Aug[A](tup:(Int,Int)) = new AugIntPair(tup)
   implicit def int2Aug(i:Int) = new AugInt(i)
+  implicit def dub2Aug(i:Double) = new AugDouble(i)
   implicit def cp437_2Code(cp:CP437) = new Code(cp.index)
   implicit def sameTup2_2Aug[A](tup:(A,A)) = new AugSamePair(tup)
   implicit def tup2_2AugTup[A,B](tup:(A,B)) = new AugTuple2(tup)

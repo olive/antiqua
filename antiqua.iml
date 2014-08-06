@@ -20,6 +20,7 @@
     <orderEntry type="library" name="scala-library" level="application" />
     <orderEntry type="module" module-name="gleany" />
     <orderEntry type="library" name="libs" level="project" />
+    <orderEntry type="library" name="scala-compiler" level="application" />
   </component>
 </module>
 

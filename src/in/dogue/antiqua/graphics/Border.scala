@@ -37,7 +37,7 @@ case class Border(
     tr <++ (edges |++| pq)
   }
 
-  def filterDraw(ij:Cell, f:Cell => Boolean)(tr:TileRenderer):TileRenderer = {
+  def filterDraw(ij:Cell)(f:Cell => Boolean)(tr:TileRenderer):TileRenderer = {
     tr <++ (edges map { case (pq, t) =>
       if (f(pq)) {
         (ij |+| pq, t).some
