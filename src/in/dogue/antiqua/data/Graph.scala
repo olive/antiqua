@@ -45,3 +45,8 @@ trait Graph[TCoord, TNode] {
   def get(c:TCoord):TNode
 }
 
+
+trait FiniteGraph[TCoord, TNode] extends Graph[TCoord, TNode] {
+  def getAll:Seq[TCoord]
+}
+

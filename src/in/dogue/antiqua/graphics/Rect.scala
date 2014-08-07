@@ -2,6 +2,8 @@ package in.dogue.antiqua.graphics
 
 import in.dogue.antiqua.Antiqua._
 import scala.util.Random
+import com.deweyvm.gleany.graphics.Color
+import in.dogue.antiqua.data.Code
 
 object Rect {
   def createPlain(cols:Int, rows:Int, tile:Tile) = {
@@ -16,6 +18,17 @@ object Rect {
       ((i, j), f(r))
     }
     Rect(cols, rows, tiles)
+  }
+
+  def createSimpleTextured(cols:Int, rows:Int, bg:Color, bgFactor:Int, fg:Color, fgFactor:Int, cds:Vector[Code], r:Random) = {
+    def mkTile(r:Random) = {
+      val bgColor = bg.dim(bgFactor + r.nextDouble)
+      val fgColor = fg.dim(fgFactor + r.nextDouble)
+      val code = cds.randomR(r)
+      code.mkTile(bgColor, fgColor)
+    }
+    createTextured(cols, rows, mkTile, r)
+
   }
 }
 

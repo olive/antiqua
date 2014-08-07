@@ -3,12 +3,13 @@ package in.dogue.antiqua.ai
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import in.dogue.antiqua.Antiqua._
+import in.dogue.antiqua.data.FiniteGraph
 
 object Dijkstra {
   type Node = (Int,Int)
 
-  private def diff(a:(Node, Int), b:(Node, Int)) = a._2 < b._2
-  private def rewind(start:Node, end:Node, previous:mutable.Map[Node,Option[Node]]) = {
+  private def diff(a:(Node, Int), b:(Node, Int)) = a._2 > b._2
+  private def rewind(start:Node, end:Node, previous:mutable.Map[Node,Option[Node]]):Option[List[Node]] = {
     var u = end
     val result = ArrayBuffer[Node]()
     result += u
@@ -18,13 +19,13 @@ object Dijkstra {
       u = v
       ()
     }
-    result.some
+    result.reverse.toList.some
   }
 
-  /** warning untested */
-  def pfind(start:Node, end:Node, getNeighbors:(Node) => Seq[Node], getAll: => Seq[Node]):Option[Seq[Node]] = {
-    val allNodes = getAll
-    val dist:mutable.Map[Node, Int] = mutable.Map().withDefaultValue(Int.MaxValue)
+  def pfind(start:Node, end:Node, g:FiniteGraph[Node,Node]):Option[List[Node]] = {
+    def getNeighbors(c:Cell) = g.getNeighbors(c)
+    val allNodes = g.getAll
+    val dist:mutable.Map[Node, Int] = mutable.Map().withDefaultValue(Int.MaxValue - 1)
     val pq = mutable.PriorityQueue[(Node,Int)]()(Ordering.fromLessThan(diff))
     dist(start) = 0
     val previous:mutable.Map[Node,Option[Node]] = mutable.Map().withDefaultValue(None)
@@ -33,7 +34,7 @@ object Dijkstra {
     }
 
     while (!pq.isEmpty) {
-      val u = pq.head._1
+      val u = pq.dequeue()._1
       if (u == end) {
         return rewind(start, end, previous)
       }

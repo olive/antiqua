@@ -86,6 +86,29 @@ class Polygon private (val lines:Vector[Line]) {
     points.map { p => (p - centroid).magnitude2 }.max.sqrt
   }
 
+  def expand(amt:Double) = {
+    val c = centroid
+    val newLines = lines.map { l =>
+      val diffp = l.p - c
+      val diffq = l.q - c
+      val angp = diffp.angle
+      val angq = diffq.angle
+      val newp = diffp + amt*:Point2d(math.cos(angp), math.sin(angp))
+      val newq = diffq + amt*:Point2d(math.cos(angq), math.sin(angq))
+      Line(newp + c, newq + c)
+    }
+    new Polygon(newLines)
+  }
+
+  def intersects(other:Polygon) = {
+    val pts1 = other.points
+    pts1.exists{ p => contains(p) }
+  }
+
+  def intersectExpand(other:Polygon) = {
+    this.expand(1).intersects(other.expand(1))
+  }
+
   def upperLeft:Option[Point2d] = {
     val p1 = lines.map {l => Vector(l.p, l.q)}
     val points:Vector[Point2d] = p1.flatten
