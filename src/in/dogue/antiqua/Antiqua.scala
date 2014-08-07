@@ -17,6 +17,7 @@ object Antiqua {
   implicit def seq2AugCellSeq[A](seq:Seq[(Cell,A)]) = new AugCellSeq(seq)
   implicit def intTup2Aug[A](tup:(Int,Int)) = new AugIntPair(tup)
   implicit def int2Aug(i:Int) = new AugInt(i)
+  implicit def dub2Aug(i:Double) = new AugDouble(i)
   implicit def cp437_2Code(cp:CP437) = new Code(cp.index)
   implicit def sameTup2_2Aug[A](tup:(A,A)) = new AugSamePair(tup)
   implicit def tup2_2AugTup[A,B](tup:(A,B)) = new AugTuple2(tup)
@@ -26,6 +27,7 @@ object Antiqua {
   implicit def array2dPair2Aug[A,B](a:Array2d[(A,B)]) = new AugArray2dPair(a)
   implicit def seq2Aug[T](s:Seq[T]) = new AugSeq(s)
   implicit def set2Aug[A](a:Set[A]) = new AugSet(a)
+  implicit def array2d2AugArray2d[A](arr:Array2d[A]) = new AugArray2d(arr)
   @inline def id[T](t:T) = t
 
   def impossible = throw new Exception("Impossible")

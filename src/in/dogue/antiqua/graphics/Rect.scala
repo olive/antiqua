@@ -40,7 +40,7 @@ case class Rect(cols:Int, rows:Int, tiles:TileGroup) {
 
   def toTileGroup = tiles
 
-  def filterDraw(ij:Cell, f:Cell => Boolean)(tr:TileRenderer):TileRenderer = {
+  def filterDraw(ij:Cell)(f:Cell => Boolean)(tr:TileRenderer):TileRenderer = {
     tr <++ (tiles map { case (pq, t) =>
       if (f(pq)) {
         (ij |+| pq, t).some

@@ -118,6 +118,12 @@ class Array2d[T](private val elements:Vector[T],
 
   def first:Option[T] = getOption((0,0))
 
+  def countT(f:T => Boolean):Int = {
+    foldLeft(0) { case (num, (_, t)) =>
+      num + f(t).select(0, 1)
+    }
+  }
+
   def foldLeft[R](r:R)(f:(R, (Cell,T)) => R): R = {
     elements.zipWithIndex.foldLeft(r) { case (acc, (e, k)) =>
       val ij = indexToCoords(k, cols)

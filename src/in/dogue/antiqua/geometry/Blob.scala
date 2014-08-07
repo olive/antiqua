@@ -32,7 +32,7 @@ object Blob {
         poly.contains(Point2d(i, j))
       }
 
-      if (mask.count{case (_, b) => b} < threshold) {
+      if (mask.countT(id[Boolean]) < threshold) {
         found = false
       }
       count += 1
