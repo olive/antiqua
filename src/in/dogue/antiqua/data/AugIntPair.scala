@@ -6,9 +6,6 @@ import Antiqua._
 class AugIntPair(p:(Int,Int)) {
   @inline def x = p._1
   @inline def y = p._2
-  @inline def inRange(p:(Int,Int,Int,Int)) = {
-    x > p._1 && y > p._2 && x < p._3 - 1 && y < p._4 - 1
-  }
   @inline def |+|(pr:(Int,Int)) = (p._1 + pr._1, p._2 + pr._2)
   @inline def |+(i:Int) = (p._1 + i, p._2)
   @inline def +|(j:Int) = (p._1, p._2 + j)
