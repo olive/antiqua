@@ -8,6 +8,7 @@ class AugIntPair(p:(Int,Int)) {
   @inline def y = p._2
   @inline def inRange(rect:(Int,Int,Int,Int)) = {
     x >= rect._1 && y >= rect._2 && x < rect._1 + rect._3 && y < rect._2 + rect._4
+
   @inline def |+|(pr:(Int,Int)) = (p._1 + pr._1, p._2 + pr._2)
   @inline def |+(i:Int) = (p._1 + i, p._2)
   @inline def +|(j:Int) = (p._1, p._2 + j)
