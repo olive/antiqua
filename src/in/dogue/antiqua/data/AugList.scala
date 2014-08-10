@@ -33,4 +33,11 @@ class AugList[T](t:List[T]) {
       (p :: acc) @@ q @@ r
     }
   }
+
+  def fold4[B,C,D](b:B, c:C, d:D, f:(T, B, C, D) => (T, B, C, D)):(List[T], B, C, D) = {
+    t.foldLeft((List[T](), b, c, d)) { case ((acc, w, x, y), z) =>
+      val (p, q, r, s) = f(z,w,x,y)
+      (p :: acc) @@ q @@ r @@ s
+    }
+  }
 }
