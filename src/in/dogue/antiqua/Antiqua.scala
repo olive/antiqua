@@ -26,6 +26,7 @@ object Antiqua {
   implicit def tup5_2AugTup[A,B,C,D,E](tup:(A,B,C,D,E)) = new AugTuple5(tup)
   implicit def array2dPair2Aug[A,B](a:Array2d[(A,B)]) = new AugArray2dPair(a)
   implicit def seq2Aug[T](s:Seq[T]) = new AugSeq(s)
+  implicit def list2Aug[T](t:List[T]) = new AugList(t)
   implicit def set2Aug[A](a:Set[A]) = new AugSet(a)
   implicit def array2d2AugArray2d[A](arr:Array2d[A]) = new AugArray2d(arr)
   @inline def id[T](t:T) = t
