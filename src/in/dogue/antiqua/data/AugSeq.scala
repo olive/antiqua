@@ -16,5 +16,4 @@ class AugSeq[T](s:Seq[T]) {
     }
   }
 
-
 }
