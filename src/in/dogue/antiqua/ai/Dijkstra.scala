@@ -9,9 +9,9 @@ object Dijkstra {
   type Node = (Int,Int)
 
   private def diff(a:(Node, Int), b:(Node, Int)) = a._2 > b._2
-  private def rewind(start:Node, end:Node, previous:mutable.Map[Node,Option[Node]]):Option[List[Node]] = {
+  def rewind[T](start:T, end:T, previous:mutable.Map[T,Option[T]]):Option[List[T]] = {
     var u = end
-    val result = ArrayBuffer[Node]()
+    val result = ArrayBuffer[T]()
     result += u
     while(previous(u).isDefined) {
       val v = previous(u).get
@@ -38,7 +38,7 @@ object Dijkstra {
       if (u == end) {
         return rewind(start, end, previous)
       }
-      for (v <- getNeighbors(u)) {
+      for (v <- getNeighbors(u) if !previous.contains(v)) {
         val alt = dist(u) + 1//length(u,v)
         if (alt < dist(v)) {
           dist(v) = alt
