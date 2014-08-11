@@ -7,6 +7,7 @@ import in.dogue.antiqua.algebra.Monoid
 object Antiqua {
   type TileGroup = Seq[(Cell,Tile)]
   type AnimationGroup = Seq[(Cell,Animation)]
+  type Vox = (Int,Int,Int)
   type Cell = (Int,Int)
   implicit def any2Aug[A](a: => A) = new AugAny(a)
   implicit def opt2Aug[A](o:Option[A]) = new AugOption(o)
@@ -16,6 +17,7 @@ object Antiqua {
   implicit def num2Aug[A](a:A)(implicit n: Numeric[A]) = new AugNum(a)
   implicit def seq2AugCellSeq[A](seq:Seq[(Cell,A)]) = new AugCellSeq(seq)
   implicit def intTup2Aug[A](tup:(Int,Int)) = new AugIntPair(tup)
+  implicit def intTrip2Aug[A](trip:(Int,Int,Int)) = new AugIntTriple(trip)
   implicit def int2Aug(i:Int) = new AugInt(i)
   implicit def dub2Aug(i:Double) = new AugDouble(i)
   implicit def cp437_2Code(cp:CP437) = new Code(cp.index)
