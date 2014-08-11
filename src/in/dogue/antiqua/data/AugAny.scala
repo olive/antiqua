@@ -8,6 +8,8 @@ class AugAny[T](t: => T) {
 
   @inline
   def onlyIfs(b:Boolean):Seq[T] = if(b) Seq(t) else Seq()
+  @inline
+  def onlyIfl(b:Boolean):List[T] = if(b) List(t) else Nil
 
 
   @inline
@@ -18,6 +20,9 @@ class AugAny[T](t: => T) {
 
   @inline
   def seq = Seq(t)
+
+  @inline
+  def list = List(t)
 
   def doo[K](f:T=>K) = f(t)
 }
