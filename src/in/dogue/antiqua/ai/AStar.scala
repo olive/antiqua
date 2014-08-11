@@ -49,7 +49,6 @@ object AStar {
         }
       }
     }
-    println("no path from " + start + " --> " + end)
     return None
   }
 }
