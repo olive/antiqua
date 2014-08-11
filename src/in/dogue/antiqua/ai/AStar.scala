@@ -30,6 +30,7 @@ object AStar {
     open += start -> 0
     while (!open.isEmpty) {
       val current = open.dequeue()._1
+      openSet -= current
       if (current == end) {
         return Dijkstra.rewind(start, end, previous)
       }
@@ -49,6 +50,7 @@ object AStar {
         }
       }
     }
+    println("no path")
     return None
   }
 }

@@ -23,12 +23,9 @@ case class Array3d[T](cols:Int, rows:Int, layers:Int, vs:Vector[Array2d[T]]) {
   def toGraph:Graph[Vox,Vox] = new Graph[Vox,Vox] {
     def get(v:Vox) = v
     def getNeighbors(v:Vox):Seq[Vox] = for {
-      i <- -1 to 1
-      j <- -1 to 1
-      k <- -1 to 1
-      if i != 0 || j != 0 || k != 0
+      d <- Direction3.All
     } yield {
-      (i, j, k) |+| v
+      v --> d
     }
 
   }
