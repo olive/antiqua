@@ -10,6 +10,7 @@ sealed trait Direction3 {
   val dx:Int
   val dy:Int
   val dz:Int
+  @inline def dd = (dx, dy, dz)
 }
 case object Upward extends Direction3 {
   val dx = 0
