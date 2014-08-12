@@ -9,7 +9,7 @@ object AStar {
 
   def pfindVox(start:Vox, end:Vox, gr:Graph[Vox,Vox]):Option[List[Vox]] = {
     def h(a:Vox, b:Vox) = {
-      (a |-| b).mag2
+      (a |-|-| b).mag2
     }
     pfind(start, end, gr, h)
   }
