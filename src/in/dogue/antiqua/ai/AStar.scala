@@ -50,7 +50,6 @@ object AStar {
         }
       }
     }
-    println("no path")
     return None
   }
 }

@@ -14,12 +14,12 @@ sealed trait Direction3 {
 case object Upward extends Direction3 {
   val dx = 0
   val dy = 0
-  val dz = -1
+  val dz = 1
 }
 case object Downward extends Direction3 {
   val dx = 0
   val dy = 0
-  val dz = 1
+  val dz = -1
 }
 case object North extends Direction3 {
   val dx = 0

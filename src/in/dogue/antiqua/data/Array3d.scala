@@ -20,13 +20,5 @@ case class Array3d[T](cols:Int, rows:Int, layers:Int, vs:Vector[Array2d[T]]) {
   def updated(v:Vox, t:T):Array3d[T] = cpy(vs.updated(v.z, vs(v.z).updated(v.xy, t)))
   def update(v:Vox, f:T=>T):Array3d[T]= cpy(vs.updated(v.z, vs(v.z).update(v.xy, f)))
   def flatten:Seq[(Vox,T)] = vs.zipWithIndex.map{ case (a, z) => a.flatten.map { case ((i, j), t) => ((i, j, z), t)}}.flatten
-  def toGraph:Graph[Vox,Vox] = new Graph[Vox,Vox] {
-    def get(v:Vox) = v
-    def getNeighbors(v:Vox):Seq[Vox] = for {
-      d <- Direction3.All
-    } yield {
-      v --> d
-    }
 
-  }
 }
