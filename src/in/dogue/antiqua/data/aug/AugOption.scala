@@ -5,4 +5,5 @@ class AugOption[T](o:Option[T]) {
     case x@Some(_) => x
     case None => p
   }
+
 }
