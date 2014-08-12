@@ -31,6 +31,7 @@ object Antiqua {
   implicit def list2Aug[T](t:List[T]) = new AugList(t)
   implicit def set2Aug[A](a:Set[A]) = new AugSet(a)
   implicit def array2d2AugArray2d[A](arr:Array2d[A]) = new AugArray2d(arr)
+  implicit def listMap2Aug[K,V](map:Map[K,List[V]]) = new AugListMap(map)
   @inline def id[T](t:T) = t
 
   def impossible = throw new Exception("Impossible")
