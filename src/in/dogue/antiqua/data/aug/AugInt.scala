@@ -1,4 +1,4 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
 import in.dogue.antiqua.Antiqua
 import Antiqua._

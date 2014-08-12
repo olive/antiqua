@@ -27,12 +27,11 @@ object Monoid {
     def add(i:Int, j:Int) = i + j
   }
 
-  implicit object ListMonoid extends Monoid[List[SomeT]] {
-    def zero = List()
-    def add(a:List[SomeT], b:List[SomeT]) = a ++ b
-  }
-  type SomeT = T forSome {type T}
+  implicit def listMonoid[A]: Monoid[List[A]] = new Monoid[List[A]] {
+    override def zero: List[A] = List()
 
+    override def add(a:List[A], b:List[A]) = a ++ b
+  }
 
   implicit def seqMonoid[A]: Monoid[Seq[A]] = new Monoid[Seq[A]] {
     override def zero: Seq[A] = Seq()
@@ -46,4 +45,14 @@ object Monoid {
     override def add(m1: (A, B), m2: (A, B)): (A, B) = (m1._1 <+> m2._1, m1._2 <+> m2._2)
   }
 
+  implicit def mapMonoid[A,B](implicit ev:Monoid[B]):Monoid[Map[A, B]] = new Monoid[Map[A, B]] {
+    override def zero = Map()
+    override def add(m1:Map[A,B], m2:Map[A,B]) = {
+      (for (k <- m1.keys ++ m2.keys) yield {
+        val v1 = m1.getOrElse(k, ev.zero)
+        val v2 = m2.getOrElse(k, ev.zero)
+        k -> (v1 <+> v2)
+      }).toMap.withDefaultValue(ev.zero)
+    }
+  }
 }

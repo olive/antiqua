@@ -3,6 +3,7 @@ package in.dogue.antiqua
 import in.dogue.antiqua.data._
 import in.dogue.antiqua.graphics.{Animation, Tile}
 import in.dogue.antiqua.algebra.Monoid
+import in.dogue.antiqua.data.aug._
 
 object Antiqua {
   type TileGroup = Seq[(Cell,Tile)]
@@ -30,8 +31,8 @@ object Antiqua {
   implicit def seq2Aug[T](s:Seq[T]) = new AugSeq(s)
   implicit def list2Aug[T](t:List[T]) = new AugList(t)
   implicit def set2Aug[A](a:Set[A]) = new AugSet(a)
+  implicit def vec2Aug[A](a:Vector[A]) = new AugVector(a)
   implicit def array2d2AugArray2d[A](arr:Array2d[A]) = new AugArray2d(arr)
-  implicit def listMap2Aug[K,V](map:Map[K,List[V]]) = new AugListMap(map)
   @inline def id[T](t:T) = t
 
   def impossible = throw new Exception("Impossible")

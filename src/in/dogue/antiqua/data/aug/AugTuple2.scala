@@ -1,4 +1,4 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
 class AugTuple2[A,B](t:(A,B)) {
   def map1[K](f:A => K) = t.copy(_1=f(t._1))

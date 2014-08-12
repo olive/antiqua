@@ -1,7 +1,8 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
 import in.dogue.antiqua.Antiqua
 import Antiqua._
+import in.dogue.antiqua.data.Array2d
 
 class AugArray2dPair[A,B](a:Array2d[(A,B)]) {
   def unzip:(Array2d[A], Array2d[B]) = {

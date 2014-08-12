@@ -1,4 +1,4 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
 class AugAny[T](t: => T) {
   @inline

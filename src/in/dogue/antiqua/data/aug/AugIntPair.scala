@@ -1,5 +1,6 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
+import in.dogue.antiqua.data.Direction
 import in.dogue.antiqua.Antiqua
 import Antiqua._
 

@@ -1,8 +1,8 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
-import in.dogue.antiqua.Antiqua.Vox
 import in.dogue.antiqua.Antiqua
 import Antiqua._
+import in.dogue.antiqua.data.Direction3
 
 class AugIntTriple(p:Vox) {
   @inline def xy = (x, y)

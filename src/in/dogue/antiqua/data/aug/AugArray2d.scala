@@ -1,4 +1,4 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
 import com.deweyvm.gleany.graphics.Color
 import java.awt.image.BufferedImage
@@ -6,6 +6,7 @@ import in.dogue.antiqua.Antiqua
 import Antiqua._
 import java.io.File
 import javax.imageio.ImageIO
+import in.dogue.antiqua.data.Array2d
 
 class AugArray2d[T](arr:Array2d[T]) {
   def render(path:String)(f:T => Color) {

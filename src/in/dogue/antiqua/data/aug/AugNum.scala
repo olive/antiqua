@@ -1,4 +1,4 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
 class AugNum[T](rep:T)(implicit n: Numeric[T]) {
   def clamp(min: T, max: T):T = {

@@ -1,4 +1,4 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
 class AugSet[T](s:Set[T]) {
   def takeAny:Option[(T, Set[T])] = {

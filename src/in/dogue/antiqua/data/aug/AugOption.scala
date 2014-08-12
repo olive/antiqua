@@ -1,4 +1,4 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
 class AugOption[T](o:Option[T]) {
   def <|>(p:Option[T]) = o match {

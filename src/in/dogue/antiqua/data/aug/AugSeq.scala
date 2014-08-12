@@ -1,4 +1,4 @@
-package in.dogue.antiqua.data
+package in.dogue.antiqua.data.aug
 
 class AugSeq[T](s:Seq[T]) {
   def pairwise:Seq[(T,T)] = {
