@@ -13,7 +13,7 @@ object Graph {
       filled = filled + pos
       set = newSet
       val ns = g.getNeighbors(pos)
-      ns foreach { case ppos =>
+      ns foreach { case (ppos,_) =>
         if (!filled.contains(ppos)) {
           set = set + ppos
         }
@@ -41,7 +41,8 @@ object Graph {
 }
 
 trait Graph[TCoord, TNode] {
-  def getNeighbors(c:TCoord):Seq[TCoord]
+  type Cost = Double
+  def getNeighbors(c:TCoord):Seq[(TCoord,Cost)]
   def get(c:TCoord):TNode
 }
 

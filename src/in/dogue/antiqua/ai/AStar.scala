@@ -35,8 +35,8 @@ object AStar {
         return Dijkstra.rewind(start, end, previous)
       }
       closed += current
-      for (n <- gr.getNeighbors(current) if !closed.contains(n)) {
-        val ng = gmap(current) + h(current, n)
+      for ((n,cost) <- gr.getNeighbors(current) if !closed.contains(n)) {
+        val ng = gmap(current) + cost
         val inOpen = openSet.contains(n)
         if (!inOpen || ng < gmap(n)) {
           previous(n) = current.some

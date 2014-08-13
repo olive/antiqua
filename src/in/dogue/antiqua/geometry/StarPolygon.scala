@@ -37,8 +37,8 @@ case class StarPolygon private (center:Cell, points:Seq[Cell], lines:Seq[Seq[Cel
   def getCells:Set[Cell] = {
     val cells = lines.flatten.toSet
     val g = new Graph[Cell, Cell] {
-      def getNeighbors(c:Cell):Seq[Cell] = {
-        def getN(t:Cell) = t.onlyIfs(!cells.contains(t))
+      def getNeighbors(c:Cell):Seq[(Cell, Graph[Cell, Cell]#Cost)] = {
+        def getN(t:Cell) = (t, 1.0).onlyIfs(!cells.contains(t))
         val cs = for (cell <- List((-1, 0), (1, 0), (0, 1), (0, -1))) yield {
           getN(cell |+| c)
         }
