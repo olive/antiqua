@@ -26,7 +26,6 @@ trait Array2dView[T] {
   protected val underlying:Array2d[T]
   def get(ij:Cell) = underlying.get(ij |+| ((x, y)))
   def foldLeft[R](r:R)(f:(R, (Cell,T)) => R): R = {
-    println(cols + " " + rows)
     (for (i <- 0 until cols;j<-0 until rows; p = (i, j)) yield {
       (p, get(p))
     }).foldLeft(r)(f)
