@@ -35,8 +35,6 @@ object Antiqua {
   implicit def array2d2AugArray2d[A](arr:Array2d[A]) = new AugArray2d(arr)
   @inline def id[T](t:T) = t
 
-  implicit def rightBias[R,L](e:Either[R,L]) = e.right
-
   def impossible = throw new Exception("Impossible")
 
 }

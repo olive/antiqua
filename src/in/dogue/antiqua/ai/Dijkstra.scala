@@ -25,7 +25,7 @@ object Dijkstra {
   def pfind(start:Node, end:Node, g:FiniteGraph[Node,Node]):Option[List[Node]] = {
     def getNeighbors(c:Cell) = g.getNeighbors(c)
     val allNodes = g.getAll
-    val dist:mutable.Map[Node, Double] = mutable.Map().withDefaultValue(Int.MaxValue - 1)
+    val dist:mutable.Map[Node, Double] = mutable.Map().withDefaultValue(Double.PositiveInfinity)
     val pq = mutable.PriorityQueue[(Node,Double)]()(Ordering.fromLessThan(diff))
     dist(start) = 0
     val previous:mutable.Map[Node,Option[Node]] = mutable.Map().withDefaultValue(None)
