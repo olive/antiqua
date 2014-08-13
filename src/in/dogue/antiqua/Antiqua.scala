@@ -2,7 +2,6 @@ package in.dogue.antiqua
 
 import in.dogue.antiqua.data._
 import in.dogue.antiqua.graphics.{Animation, Tile}
-import in.dogue.antiqua.algebra.Monoid
 import in.dogue.antiqua.data.aug._
 
 object Antiqua {

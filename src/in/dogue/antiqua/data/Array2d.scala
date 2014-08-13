@@ -73,10 +73,8 @@ class Array2d[T](private val elements:Vector[T],
 
   def update(ij:Cell, f:T => T) = {
     val k = coordsToIndex(ij, cols)
-    getOption(ij).map {t =>
+    getOption(ij).fold(this) {t =>
       new Array2d(elements.updated(k, f(t)), cols, rows)
-    }.getOrElse{
-      this
     }
   }
 
@@ -137,10 +135,6 @@ class Array2d[T](private val elements:Vector[T],
   }
 
   def getOption(ij:Cell):Option[T] = {
-    if (outside(ij)) {
-      None
-    } else {
-      get(ij).some
-    }
+    get(ij).onlyIf(!outside(ij))
   }
 }
